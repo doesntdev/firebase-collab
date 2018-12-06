@@ -1,11 +1,17 @@
 # Demo of Firebase Email/password login
 
 You must have the firebase-cli installed.  from the commend line do this
+
     npm install -g firebase-tools
+
 then login
+
     firebase login
+
 then from the firebaseLogin folder,
+
     firebase serve
+    
 this should get you something like this
     === Serving from '/Users/deanwagner/donut-password'...
 
