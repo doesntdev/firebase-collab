@@ -19,14 +19,19 @@ function getMoves(move) {
   //console.log(move.val());
   let moves = move.val();
   let keys = Object.keys(moves);
-  console.log(keys);
+  //console.log(keys);
   for (var i = 0; i < keys.length; i++) {
     let k = keys[i];
     let userName = moves[k].name;
     let x = moves[k].x;
     let y = moves[k].y;
     let isKing = moves[k].isTestKing;
-    console.log("name:", userName, "x:", x, "y:", y, "isKing:", isTestKing);
+    //console.log("name:", userName, "x:", x, "y:", y, "isKing:", isTestKing);
+    let item = document.createElement("li"); // Create a <li> node
+    var textnode = document.createTextNode("userName:" + userName + " x:" + x + " y:" + y + " isKing:" + isTestKing); // Create a text node
+    item.appendChild(textnode); // Append the text to <li>
+
+    document.getElementById("dbMoves").appendChild(item); // Append <li> to <ul> with id="dbMoves"
   }
 }
 
