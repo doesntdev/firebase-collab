@@ -47,7 +47,7 @@ function initGame () {
     { x: 5, y: 7, color: "black"},
     { x: 7, y: 7, color: "black"},
   ];
-  draw(gameState.board);
+  draw(gameState.board, selected);
 }
 
 //  Board Click logic
@@ -59,12 +59,12 @@ function handleBdClick ( i, j ) {
   }
 
   // see if space clicked is empty or not
-  let piece = _getPc( i, j );
-  console.log(piece);
+  let [pcIndex, piece] = _getPc( i, j );
   if (piece) {  //not empty
     // is there a selected piece already for this turn
     if (piece.color == gameState.turn) {
       selected = piece;
+      draw(gameState.board, selected);
       return //  TODO check possible moves?
     } else {
       console.log("not selected or wrong color " + piece.color);
@@ -96,7 +96,7 @@ function _submitMoveRemote( selected, i, j ) {
 function _getPc ( x, y ) {
   for (var i = 0; i < gameState.board.length; i++) {
     if (gameState.board[i].x === x && gameState.board[i].y === y) {
-      return gameState.board[i];
+      return [i, gameState.board[i]];
     }
   }
 }

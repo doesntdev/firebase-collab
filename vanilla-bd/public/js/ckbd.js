@@ -46,7 +46,7 @@ function boardInit() {
 
 
 
-function draw(pcs) {
+function draw(pcs, sel) {
   // draw the board
   let c = document.getElementById('board');
   let ctx = c.getContext("2d");
@@ -54,6 +54,7 @@ function draw(pcs) {
     for (var j = 0; j < 8; j++) {
       if (i % 2 == j % 2) {ctx.fillStyle = "grey";}
       else {ctx.fillStyle = "white";  }
+      if (sel && i == sel.x && j == sel.y) {ctx.fillStyle = "green";}
       ctx.fillRect(63 * i, 63 * j, 63, 63)
     }
   }
@@ -61,10 +62,6 @@ function draw(pcs) {
   // draw the pieces
   for (var i = 0; i < pcs.length; i++) {
     let pc = pcs[i];
-    if (pc.isSelected) {
-      ctx.fillStyle = "green";
-      ctx.fillRect(63 * pc.x, 63 * pc.y, 63, 63)
-    }
     let xcorr = pc.x * 63 + 32;
     let ycorr = pc.y * 63 + 32;
     ctx.beginPath();
