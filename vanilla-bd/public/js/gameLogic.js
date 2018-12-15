@@ -72,7 +72,17 @@ function handleBdClick ( i, j ) {
     }
   } else {  // space is empty
     if (localPlay) {
-      _submitMoveLocal( i, j);
+      let moveResult = _submitMoveLocal( i, j);
+      if (moveResult.isLegal) {
+        let [selIndex, s] = _getPc( selected.x, selected.y );
+        gameState.board[selIndex].x = i;
+        gameState.board[selIndex].y = j;
+        selected = null;
+        gameState.turn == "red" ? gameState.turn = "black" : gameState.turn = "red";
+        draw(gameState.board, selected);
+      } else {
+        alert("illegal move");
+      }
     } else {
       _submitMoveRemote( selected, i, j );  // TODO hook up to cloud function
     }
@@ -85,20 +95,16 @@ function clearBoard () {
 
 // *******************  utilities   **********************
 
-function _submitMoveLocal( i, j) {
-  alert(" sumitting local move");
-}
 
-function _submitMoveRemote( selected, i, j ) {
-  alert(" submitting remote move");
-}
 
 function _getPc ( x, y ) {
+  let result = [null, null];
   for (var i = 0; i < gameState.board.length; i++) {
     if (gameState.board[i].x === x && gameState.board[i].y === y) {
-      return [i, gameState.board[i]];
+      result = [i, gameState.board[i]];
     }
   }
+  return result;
 }
 
 /*********************************
@@ -107,16 +113,16 @@ function _getPc ( x, y ) {
 * @param pc zero based indiex of piece
 * @param Obj Object containing key value pairs
 *********************************/
-function setPc (pc, Obj) {
-  if (pc >= 0 && pc <= 23) {
-    for (var prop in Obj) {
-      if (gameState.board[pc].hasOwnProperty(prop)) {
-        gameState.board[pc][prop] = Obj[prop];
-      } else {
-        console.log("this sucks")
-      }
-    }
-  } else {
-    console.log("WTF, piece is out of range, only 24 pieces possible")
-  }
-}
+// function setPc (pc, Obj) {
+//   if (pc >= 0 && pc <= 23) {
+//     for (var prop in Obj) {
+//       if (gameState.board[pc].hasOwnProperty(prop)) {
+//         gameState.board[pc][prop] = Obj[prop];
+//       } else {
+//         console.log("this sucks")
+//       }
+//     }
+//   } else {
+//     console.log("WTF, piece is out of range, only 24 pieces possible")
+//   }
+// }
