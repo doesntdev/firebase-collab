@@ -5,7 +5,7 @@ function _submitMoveLocal( i, j) {
   return result;
 }
 
-function _submitMoveRemote( selected, i, j ) {
+function _submitMoveRemote( selected.piece, i, j ) {
   alert(" submitting remote move");
 }
 

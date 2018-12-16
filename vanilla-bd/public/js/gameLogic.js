@@ -5,7 +5,7 @@ let gameState = {
 };
 let localPlay = true;
 let yourColor = "red";
-let selected = null;
+let selected = {index: null, piece: null};
 let jumpExists = false;
 let allMoves = [];
 
@@ -58,29 +58,32 @@ function handleBdClick ( i, j ) {
   }
 
   // see if space clicked is empty or not
-  let [h, piece] = _getPc( i, j );
+  let [pcIndex, piece] = _getPc( i, j );
   if (piece) {  //not empty
-    // is there a selected piece already for this turn
+
+    // is there a selected.piece piece already for this turn
     if (piece.color == gameState.turn) {
-      if (piece == selected) {
-        selected = null;
+      if (piece == selected.piece) {
+        selected = {index: null, piece: null};
+
       } else {
-        selected = piece;
+        selected = {index: pcIndex, piece: piece};
+
       }
+      calculateMoves();
       draw(gameState.board, selected);
       return;
     } else {
-      console.log("not selected or wrong color " + piece.color);
+      console.log("not selected.piece or wrong color " + piece.color);
       return;
     }
   } else {  // space is empty
     if (localPlay) {
       let moveResult = _submitMoveLocal( i, j);
       if (moveResult.isLegal) {
-        let [selIndex, s] = _getPc( selected.x, selected.y );
-        gameState.board[selIndex].x = i;
-        gameState.board[selIndex].y = j;
-        selected = null;
+        gameState.board[selected.index].x = i;
+        gameState.board[selected.index].y = j;
+        selected = {index: null, piece: null};
         toggleTurn();
         draw(gameState.board, selected);
       } else {
@@ -97,7 +100,7 @@ function _submitMoveLocal( i, j) {
   return result;
 }
 
-function _submitMoveRemote( selected, i, j ) {
+function _submitMoveRemote( sel, i, j ) {
   alert(" submitting remote move");
 }
 
@@ -142,6 +145,15 @@ function calculateMoves() {
       calculateDiagonals(i, gameState.board[i], 1, -1);
     }
   }
+
+  if (selected.piece) {
+    let tempArray = [];
+    for (var j = 0; j < allMoves.length; j++) {
+      if (selected.index == allMoves[j].index) {tempArray.push(allMoves[j]);}
+    }
+    allMoves = tempArray;
+  }
+
   if (jumpExists) {
     let tempArray = [];
     for (var j = 0; j < allMoves.length; j++) {
@@ -149,6 +161,7 @@ function calculateMoves() {
     }
     allMoves = tempArray;
   }
+
   console.log(allMoves);
 }
 

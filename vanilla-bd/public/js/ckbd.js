@@ -30,7 +30,7 @@ function draw(pcs, sel) {
     for (var j = 0; j < 8; j++) {
       if (i % 2 == j % 2) {ctx.fillStyle = "grey";}
       else {ctx.fillStyle = "white";  }
-      if (sel && i == sel.x && j == sel.y) {ctx.fillStyle = "green";}
+      if (sel.piece && i == sel.piece.x && j == sel.piece.y) {ctx.fillStyle = "green";}
       ctx.fillRect(63 * i, 63 * j, 63, 63)
     }
   }
