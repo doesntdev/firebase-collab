@@ -33,7 +33,7 @@ function initGame () {
     { x: 0, y: 2, color: "red"},
     { x: 2, y: 2, color: "red"},
     { x: 4, y: 2, color: "red"},
-    { x: 6, y: 2, color: "red"},
+    { x: 6, y: 2, color: "red", isKing: true},
     { x: 1, y: 5, color: "black"},
     { x: 3, y: 5, color: "black"},
     { x: 5, y: 5, color: "black"},
@@ -58,8 +58,12 @@ function handleBdClick ( i, j ) {
     return;
   }
 
+
+  calculateMoves();
+
+
   // see if space clicked is empty or not
-  let [pcIndex, piece] = _getPc( i, j );
+  let [h, piece] = _getPc( i, j );
   if (piece) {  //not empty
     // is there a selected piece already for this turn
     if (piece.color == gameState.turn) {
@@ -98,7 +102,7 @@ function clearBoard () {
 
 
 function _getPc ( x, y ) {
-  let result = [null, null];
+  let result = [null,null];
   for (var i = 0; i < gameState.board.length; i++) {
     if (gameState.board[i].x === x && gameState.board[i].y === y) {
       result = [i, gameState.board[i]];
