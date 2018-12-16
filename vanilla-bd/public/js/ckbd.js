@@ -22,30 +22,6 @@ function boardInit() {
   });
 }
 
-// /*********************************
-// * modifies properties of a piece in the
-// * pcs
-// * @param pc zero based indiex of piece
-// * @param Obj Object containing key value pairs
-// *********************************/
-// function setPc (pc, Obj) {
-//   if (pc >= 0 && pc <= 23) {
-//     let pcState = pcs[pc];
-//     for (var prop in Obj) {
-//       if (pcs[pc].hasOwnProperty(prop)) {
-//         pcs[pc][prop] = Obj[prop];
-//       } else {
-//         console.log("this sucks")
-//       }
-//     }
-//   } else {
-//     console.log("WTF, piece is out of range")
-//   }
-//   draw();
-// }
-
-
-
 function draw(pcs, sel) {
   // draw the board
   let c = document.getElementById('board');
@@ -76,6 +52,17 @@ function draw(pcs, sel) {
       ctx.fillStyle = "yellow";
       ctx.fill()
     }
+  }
 
+  // draw possible moves
+  for (var i = 0; i < allMoves.length; i++) {
+    let pc = allMoves[i];
+    let xcorr = pc.x * 63 + 32;
+    let ycorr = pc.y * 63 + 32;
+    ctx.beginPath();
+    ctx.arc(xcorr, ycorr, 5, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.fillStyle = "blue";
+    ctx.fill()
   }
 }

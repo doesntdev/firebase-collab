@@ -9,10 +9,12 @@ function _submitMoveRemote( selected, i, j ) {
   alert(" submitting remote move");
 }
 
+let jumpExists = false;
 let allMoves = [];
+
 function calculateMoves() {
   allMoves = [];
-  let jumpExists = false;
+  jumpExists = false;
   for (var i = 0; i < gameState.board.length; i++) {
     console.log(gameState.turn, gameState.board[i].isKing)
     if (
@@ -30,20 +32,17 @@ function calculateMoves() {
       calculateDiagonals(i, gameState.board[i], 1, -1);
     }
   }
-  console.log(allMoves);
   if (jumpExists) {
-    // filter to only jumps
-  } else {
-    possibleMoves = allMoves;
+    let tempArray = [];
+    for (var j = 0; j < allMoves.length; j++) {
+      if (allMoves[j].jump) {tempArray.push(allMoves[j]);}
+    }
+    allMoves = tempArray;
   }
-}
-
-function updateGameState(move) {
-
+  console.log(allMoves);
 }
 
 function calculateDiagonals(pcIndex, pc, xdirection, ydirection) {
-
     let x = pc.x + xdirection;
     if (x < 0 || x > 7 ) {return;}
     let y = pc.y + ydirection;
@@ -51,19 +50,21 @@ function calculateDiagonals(pcIndex, pc, xdirection, ydirection) {
     let [h, diagpcs] = _getPc( x, y );
     if (!diagpcs ) {
       allMoves.push({index: pcIndex, x: x, y: y, jump: null});
-      console.log(x, y);
     }
-
     if (diagpcs && diagpcs.color != gameState.turn) {
       let xx = x + xdirection;
       if (xx < 0 || xx > 7 ) {return;}
       let yy = y + ydirection;
       if (yy < 0 || yy > 7 ) {return;}
-      let [h, diagpcs2] = _getPc( xx, yy );
+      let [hh, diagpcs2] = _getPc( xx, yy );
       if (!diagpcs2) {
+        jumpExists = true;
         allMoves.push({index: pcIndex, x: xx, y: yy, jump: diagpcs});
-        console.log(x, y);
       }
     }
+}
+
+
+function updateGameState(move) {
 
 }
