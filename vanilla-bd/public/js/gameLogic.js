@@ -81,7 +81,6 @@ function handleBdClick ( i, j ) {
       let isLegal = false;
       let capture = null;
       for (var z = 0; z < allMoves.length; z++) {
-        console.log("yo", allMoves[z].x, i, allMoves[z].y, j);
         if (allMoves[z].x == i &&
             allMoves[z].y == j) {
           isLegal = true;
@@ -91,13 +90,27 @@ function handleBdClick ( i, j ) {
       if (isLegal) {
         gameState.board[selected.index].x = i;
         gameState.board[selected.index].y = j;
-        selected = {index: null, piece: null};
-        console.log("what!!!", i, j)
-        console.log(capture)
+
         if (capture) {
           removePcs(capture);
+          calculateMoves()
+          console.log("special capture calculation")
+          console.log(allMoves);
+          let chain = false;
+          for (var i = 0; i < allMoves.length; i++) {
+            if (allMoves[i].jump) {chain = true;}
+          }
+          console.log("chain", chain);
+          if (!chain) {
+            console.log("in not chain");
+            selected = {index: null, piece: null};
+            toggleTurn();
+          }
+        } else {
+          selected = {index: null, piece: null};
+          toggleTurn();
         }
-        toggleTurn();
+
         draw(gameState.board, selected);
       } else {
         console.log("illegal move");
