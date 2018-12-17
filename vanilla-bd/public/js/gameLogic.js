@@ -65,10 +65,8 @@ function handleBdClick ( i, j ) {
     if (piece.color == gameState.turn) {
       if (piece == selected.piece) {
         selected = {index: null, piece: null};
-
       } else {
         selected = {index: pcIndex, piece: piece};
-
       }
       calculateMoves();
       draw(gameState.board, selected);
@@ -78,26 +76,36 @@ function handleBdClick ( i, j ) {
       return;
     }
   } else {  // space is empty
-    if (localPlay) {
-      let moveResult = _submitMoveLocal( i, j);
-      if (moveResult.isLegal) {
+    if (localPlay && selected.piece) {
+      // let moveResult = _submitMoveLocal( i, j);
+      let isLegal = false;
+      let capture = null;
+      for (var z = 0; z < allMoves.length; z++) {
+        console.log("yo", allMoves[z].x, i, allMoves[z].y, j);
+        if (allMoves[z].x == i &&
+            allMoves[z].y == j) {
+          isLegal = true;
+          capture = allMoves[z].jump;
+        }
+      }
+      if (isLegal) {
         gameState.board[selected.index].x = i;
         gameState.board[selected.index].y = j;
         selected = {index: null, piece: null};
+        console.log("what!!!", i, j)
+        console.log(capture)
+        if (capture) {
+          removePcs(capture);
+        }
         toggleTurn();
         draw(gameState.board, selected);
       } else {
-        alert("illegal move");
+        console.log("illegal move");
       }
     } else {
       _submitMoveRemote( selected, i, j );  // TODO hook up to cloud function
     }
   }
-}
-
-function _submitMoveLocal( i, j) {
-  let result = {isLegal: true};
-  return result;
 }
 
 function _submitMoveRemote( sel, i, j ) {
@@ -113,6 +121,12 @@ function clearBoard () {
 function toggleTurn () {
   gameState.turn == "red" ? gameState.turn = "black" : gameState.turn = "red";
   calculateMoves();
+}
+
+function removePcs (pc) {
+  console.log("yoho", pc.x, pc.y, pc.color)
+  let [pcIndex, pcObj] = _getPc(pc.x, pc.y)
+  gameState.board.splice(pcIndex, 1);
 }
 
 function _getPc ( x, y ) {
