@@ -28,12 +28,17 @@ function doMove ( match, turn, nextMove )  {
 }
 
 function isMoveLegal(boardState, nextMove) {
-  return bool;
+  return true;
 }
 function isJumpLegal(boardState, nextMove) {
-  return bool;
+  return true;
 }
 function doTheMove( match, turn, nextMove ) {
+  let fm = nextMove.fm;
+  let to = nextMove.to;
+  mvPc = match.boardState[fm.x][fm.y].color;
+  match.boardState[fm.x][fm.y].color = "e";
+  match.boardState[to.x][to.y].color = mvPc;
 
 }
 

@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", event => {
 function initGame () {
   match = initMatch( "red","A", "B" )
   //calculateMoves();
-  // console.log(match.boardState);
+  console.log(match);
   draw(match.boardState, selected, allMoves);
 }
 
@@ -29,7 +29,7 @@ function handleBdClick ( i, j ) {
     return;
   }
 
-  console.log("hihaa")
+  //  
 
   // // see if space clicked is empty or not
   // let [pcIndex, piece] = _getPc( i, j );
