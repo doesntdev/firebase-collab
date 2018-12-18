@@ -1,13 +1,10 @@
 let user = {};
-let gameState = {
-  board: [],
-  turn: "black"
-};
+let match = {};
 let localPlay = true;
 let yourColor = "red";
 let selected = {index: null, piece: null};
-let jumpExists = false;
 let allMoves = [];
+
 
 document.addEventListener("DOMContentLoaded", event => {
   boardInit();
@@ -18,35 +15,10 @@ document.addEventListener("DOMContentLoaded", event => {
 });
 
 function initGame () {
-  gameState.turn = "black";
-  gameState.board = [
-    { x: 0, y: 0, color: "red"},
-    { x: 2, y: 0, color: "red"},
-    { x: 4, y: 0, color: "red"},
-    { x: 6, y: 0, color: "red"},
-    { x: 1, y: 1, color: "red"},
-    { x: 3, y: 1, color: "red"},
-    { x: 5, y: 1, color: "red"},
-    { x: 7, y: 1, color: "red"},
-    { x: 0, y: 2, color: "red"},
-    { x: 2, y: 2, color: "red"},
-    { x: 4, y: 2, color: "red"},
-    { x: 6, y: 2, color: "red", isKing: true},
-    { x: 1, y: 5, color: "black"},
-    { x: 3, y: 5, color: "black"},
-    { x: 5, y: 5, color: "black"},
-    { x: 7, y: 5, color: "black"},
-    { x: 0, y: 6, color: "black"},
-    { x: 2, y: 6, color: "black"},
-    { x: 4, y: 6, color: "black"},
-    { x: 6, y: 6, color: "black"},
-    { x: 1, y: 7, color: "black"},
-    { x: 3, y: 7, color: "black"},
-    { x: 5, y: 7, color: "black"},
-    { x: 7, y: 7, color: "black"},
-  ];
-  calculateMoves();
-  draw(gameState.board, selected, allMoves);
+  match = initMatch( "red","A", "B" )
+  //calculateMoves();
+  // console.log(match.boardState);
+  draw(match.boardState, selected, allMoves);
 }
 
 //  Board Click logic
@@ -57,68 +29,70 @@ function handleBdClick ( i, j ) {
     return;
   }
 
-  // see if space clicked is empty or not
-  let [pcIndex, piece] = _getPc( i, j );
-  if (piece) {  //not empty
+  console.log("hihaa")
 
-    // is there a selected.piece piece already for this turn
-    if (piece.color == gameState.turn) {
-      if (piece == selected.piece) {
-        selected = {index: null, piece: null};
-      } else {
-        selected = {index: pcIndex, piece: piece};
-      }
-      calculateMoves();
-      draw(gameState.board, selected, allMoves);
-      return;
-    } else {
-      console.log("not selected.piece or wrong color " + piece.color);
-      return;
-    }
-  } else {  // space is empty
-    if (localPlay && selected.piece) {
-      // let moveResult = _submitMoveLocal( i, j);
-      let isLegal = false;
-      let capture = null;
-      for (var z = 0; z < allMoves.length; z++) {
-        if (allMoves[z].x == i &&
-            allMoves[z].y == j) {
-          isLegal = true;
-          capture = allMoves[z].jump;
-        }
-      }
-      if (isLegal) {
-        gameState.board[selected.index].x = i;
-        gameState.board[selected.index].y = j;
-
-        if (capture) {
-          removePcs(capture);
-          calculateMoves()
-          console.log("special capture calculation")
-          console.log(allMoves);
-          let chain = false;
-          for (var i = 0; i < allMoves.length; i++) {
-            if (allMoves[i].jump) {chain = true;}
-          }
-          console.log("chain", chain);
-          if (!chain) {
-            console.log("in not chain");
-            selected = {index: null, piece: null};
-            toggleTurn();
-          }
-        } else {
-          selected = {index: null, piece: null};
-          toggleTurn();
-        }
-
-        draw(gameState.board, selected, allMoves);
-      } else {
-        console.log("illegal move");
-      }
-    } else {
-      _submitMoveRemote( selected, i, j );  // TODO hook up to cloud function
-    }
-  }
+  // // see if space clicked is empty or not
+  // let [pcIndex, piece] = _getPc( i, j );
+  // if (piece) {  //not empty
+  //
+  //   // is there a selected.piece piece already for this turn
+  //   if (piece.color == gameState.turn) {
+  //     if (piece == selected.piece) {
+  //       selected = {index: null, piece: null};
+  //     } else {
+  //       selected = {index: pcIndex, piece: piece};
+  //     }
+  //     calculateMoves();
+  //     draw(gameState.board, selected, allMoves);
+  //     return;
+  //   } else {
+  //     console.log("not selected.piece or wrong color " + piece.color);
+  //     return;
+  //   }
+  // } else {  // space is empty
+  //   if (localPlay && selected.piece) {
+  //     // let moveResult = _submitMoveLocal( i, j);
+  //     let isLegal = false;
+  //     let capture = null;
+  //     for (var z = 0; z < allMoves.length; z++) {
+  //       if (allMoves[z].x == i &&
+  //           allMoves[z].y == j) {
+  //         isLegal = true;
+  //         capture = allMoves[z].jump;
+  //       }
+  //     }
+  //     if (isLegal) {
+  //       gameState.board[selected.index].x = i;
+  //       gameState.board[selected.index].y = j;
+  //
+  //       if (capture) {
+  //         removePcs(capture);
+  //         calculateMoves()
+  //         console.log("special capture calculation")
+  //         console.log(allMoves);
+  //         let chain = false;
+  //         for (var i = 0; i < allMoves.length; i++) {
+  //           if (allMoves[i].jump) {chain = true;}
+  //         }
+  //         console.log("chain", chain);
+  //         if (!chain) {
+  //           console.log("in not chain");
+  //           selected = {index: null, piece: null};
+  //           toggleTurn();
+  //         }
+  //       } else {
+  //         selected = {index: null, piece: null};
+  //         toggleTurn();
+  //       }
+  //
+  //       draw(gameState.board, selected, allMoves);
+  //     } else {
+  //       console.log("illegal move");
+  //     }
+  //   } else {
+  //     _submitMoveRemote( selected, i, j );  // TODO hook up to cloud function
+  //   }
+  // }
 }
 
 function _submitMoveRemote( sel, i, j ) {

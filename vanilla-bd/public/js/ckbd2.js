@@ -22,7 +22,7 @@ function boardInit() {
   });
 }
 
-function draw(pcs, sel, allMvs) {
+function draw(board, sel, allMvs) {
   // draw the board
   let c = document.getElementById('board');
   let ctx = c.getContext("2d");
@@ -36,21 +36,14 @@ function draw(pcs, sel, allMvs) {
   }
 
   // draw the pieces
-  for (var i = 0; i < pcs.length; i++) {
-    let pc = pcs[i];
-    let xcorr = pc.x * 63 + 32;
-    let ycorr = pc.y * 63 + 32;
-    ctx.beginPath();
-    ctx.arc(xcorr, ycorr, 25, 0, 2 * Math.PI);
-    ctx.stroke();
-    pc.color == "red" ? ctx.fillStyle = "red" : ctx.fillStyle = "black";
-    ctx.fill()
-    if (pc.isKing) {
-      ctx.beginPath();
-      ctx.arc(xcorr, ycorr, 10, 0, 2 * Math.PI);
-      ctx.stroke();
-      ctx.fillStyle = "yellow";
-      ctx.fill()
+  for (var i = 0; i < 8; i++) {
+    for (var k = 0; k < 8; k++) {
+      let color = board[i][k].color;
+      let isKing = board[i][k].isKing;
+      if (isKing && color == "r") {_drawKing("red", i, k, ctx);}
+      if (isKing && color == "b") {_drawKing("black", i, k, ctx);}
+      if (!isKing && color == "r") {_drawPiece("red", i, k, ctx);}
+      if (!isKing && color == "b") {_drawPiece("black", i, k, ctx);}
     }
   }
 
@@ -65,4 +58,29 @@ function draw(pcs, sel, allMvs) {
     ctx.fillStyle = "blue";
     ctx.fill()
   }
+}
+
+function _drawPiece( color, x, y, ctx ) {
+  let xcorr = x * 63 + 32;
+  let ycorr = y * 63 + 32;
+  ctx.beginPath();
+  ctx.arc(xcorr, ycorr, 25, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.fillStyle = color;
+  ctx.fill()
+}
+
+function _drawKing( color, x, y, ctx ) {
+  let xcorr = x * 63 + 32;
+  let ycorr = y * 63 + 32;
+  ctx.beginPath();
+  ctx.arc(xcorr, ycorr, 25, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.fillStyle = color;
+  ctx.fill()
+  ctx.beginPath();
+  ctx.arc(xcorr, ycorr, 10, 0, 2 * Math.PI);
+  ctx.stroke();
+  ctx.fillStyle = "yellow";
+  ctx.fill()
 }
