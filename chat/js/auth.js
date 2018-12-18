@@ -1,38 +1,29 @@
-// document.addEventListener("DOMContentLoaded", event => {
-//     //const firebase = firebase.initializeApp();
-//     const app = firebase.app();
-//     //console.log("sending app", app);
-
-// });
-
 var provider = new firebase.auth.GoogleAuthProvider();
-// let user;
-// let token;
 
-// function googleSignin() {
-//     firebase.auth()
+function googleSignin() {
+    firebase.auth()
 
-//         .signInWithPopup(provider).then(function(result) {
-//             //console.table(result);
-//             token = result.credential.accessToken;
-//             user = result.user;
+        .signInWithPopup(provider).then(function(result) {
+            //console.table(result);
+            token = result.credential.accessToken;
+            user = result.user;
 
-//             console.log("token:", token)
-//             console.log("user", user.displayName)
-//             $("#userDisplayName").html(user.displayName);
-//             $("#email").html(user.email);
-//             $('#profileImage').attr("src", user.photoURL);
-//             $("#lastSigninTime").html(user.metadata.lastSignInTime);
+            console.log("token:", token)
+            console.log("user", user.displayName)
+            $("#userDisplayName").html(user.displayName);
+            $("#email").html(user.email);
+            $('#profileImage').attr("src", user.photoURL);
+            $("#lastSigninTime").html(user.metadata.lastSignInTime);
 
-//         }).catch(function(error) {
-//             var errorCode = error.code;
-//             var errorMessage = error.message;
+        }).catch(function(error) {
+            var errorCode = error.code;
+            var errorMessage = error.message;
 
-//             console.log(error.code)
-//             console.log(error.message)
+            console.log(error.code)
+            console.log(error.message)
 
-//         });
-// }
+        });
+}
 
 function googleSignout() {
     firebase.auth().signOut()
@@ -54,9 +45,6 @@ function googleSignInPersist() {
 
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
         .then(function() {
-            // firebase.auth().signInWithPopup(provider).then(function(result) {
-            //console.table(result);
-
 
             return firebase.auth().signInWithPopup(provider);
 
