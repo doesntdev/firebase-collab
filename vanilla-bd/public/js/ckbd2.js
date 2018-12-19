@@ -30,7 +30,7 @@ function draw(board, sel, allMvs) {
     for (var j = 0; j < 8; j++) {
       if (i % 2 == j % 2) {ctx.fillStyle = "white";}
       else {ctx.fillStyle = "grey";  }
-      if (sel.piece && i == sel.piece.x && j == sel.piece.y) {ctx.fillStyle = "green";}
+      if (sel && sel.x == i && sel.y == j) {ctx.fillStyle = "#00dd00";}
       ctx.fillRect(63 * i, 63 * j, 63, 63)
     }
   }

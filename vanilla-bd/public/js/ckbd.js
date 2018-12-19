@@ -34,7 +34,7 @@ function draw(pcs, sel, allMvs) {
       ctx.fillRect(63 * i, 63 * j, 63, 63)
     }
   }
-
+  
   // draw the pieces
   for (var i = 0; i < pcs.length; i++) {
     let pc = pcs[i];
