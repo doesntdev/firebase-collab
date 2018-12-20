@@ -105,25 +105,19 @@ function calculateDiagonals(  pcx, pcy, spaceState, match, almvs) {
   } else {
     // console.log(pcx, pcy)
     if (spaceState.color == "r" && match.turn.color == "r") {
-      console.log("red stone", pcx, pcy)
       codes = [{xd: 1, yd: 1}, {xd: -1, yd: 1}];
-    }
+    } else { }
     if (spaceState.color == "b" && match.turn.color == "b") {
-
       codes = [{xd: -1, yd: -1}, {xd: 1, yd: -1}];
-    }
+    } else { }
   }
   for (var m = 0; m < codes.length; m++) {
-    // console.log(pcx, pcy);
     let x = pcx + codes[m].xd;
     if (x < 0 || x > 7 ) {
-      // console.log(pcx, pcy, x);
       return;
     }
     let y = pcy + codes[m].yd;
-    console.log("y = ", y, "x = ", x, "for ", pcx, pcy)
     if (y < 0 || y > 7 ) {
-      // console.log(pcx, pcy, x, y);
       return;
     }
     // console.log("color of target", match.boardState[x][y].color, x, y)
