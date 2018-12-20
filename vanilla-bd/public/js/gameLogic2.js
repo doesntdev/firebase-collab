@@ -2,18 +2,18 @@ let user = {uid: "A"};
 let match = {};
 let localPlay = true;
 let yourColor = "r";
-let selected = {x: 3, y: 3};
+let selected = null;
 let allMoves = [];
 
 
 document.addEventListener("DOMContentLoaded", event => {
-  initBoard(27);
+  initBoard(63);
   // initGame();
   match = initMatch( "r","A", "A" );
-  // draw(match.boardState, selected, allMoves);
-  // document.addEventListener('bdclickevent', e => {
-  //   handleBdClick( e.detail.x, e.detail.y )
-  // });
+  setBoard(match.boardState, selected, allMoves);
+  document.addEventListener('bdclickevent', e => {
+    handleBdClick( e.detail.index, e.detail.code )
+  });
 });
 
 // function initGame () {
@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", event => {
 // }
 
 
-function handleBdClick ( i, j ) {
+function handleBdClick ( index, code ) {
 
   // check for remote play and turn
   if ( match.redUID != match.blkUID && yourColor != match.turn.color) {
@@ -32,40 +32,40 @@ function handleBdClick ( i, j ) {
     return;
   }
 
+  console.log("in the board click", index, code);
 
 
-}
 //  Board Click logic
-function handleBdClick ( i, j ) {
-  //check for remote play turn
-  if ( !localPlay && yourColor != boardState.turn) {
-    console.log(" not your turn");
-    return;
-  }
-
-
-  let space = match.boardState[i][j];
-
-  if (space.color != "e") {  //not empty
+// function handleBdClick ( i, j ) {
+//   //check for remote play turn
+//   if ( !localPlay && yourColor != boardState.turn) {
+//     console.log(" not your turn");
+//     return;
+//   }
+//
+//
+//   let space = match.boardState[i][j];
+//
+  if (code != "e") {  //not empty
     // is there a selected.piece piece already for this turn
-    if (space.color == match.turn.color) {
-      if (i == selected.x && j == selected.y) {
-        selected = {x: null, y: null};
+    if (code == match.turn.color) {
+      if (selected == index) {
+        selected = null;
+        setSel(null);
       } else {
-        selected = {x: i, y: j}
+        selected = index;
+        setSel(index);
       }
       //  TODO calculate possible moves
-      draw(match.boardState, selected, allMoves);
-      return;
     } else {
       console.log("not selected.piece or wrong color ");
       return;
     }
-  } else {
-    console.log("empty space");
-    let hoh = doMove(match, {fm: selected, to: {x: i, y: j}});
-    console.log(hoh);
-  }
+  } //else {
+//     console.log("empty space");
+//     let hoh = doMove(match, {fm: selected, to: {x: i, y: j}});
+//     console.log(hoh);
+//   }
   //
   //
   // // see if space clicked is empty or not

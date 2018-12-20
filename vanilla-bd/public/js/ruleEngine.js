@@ -167,68 +167,19 @@ function calculateDiagonals(  pcx, pcy, spaceState, match, almvs) {
 
 // ******************  other functions   *****************
 
-const startBoard = [
-  { x: 0, y: 0, color: "r"},
-  { x: 2, y: 0, color: "r"},
-  { x: 4, y: 0, color: "r"},
-  { x: 6, y: 0, color: "r"},
-  { x: 1, y: 1, color: "r"},
-  { x: 3, y: 1, color: "r"},
-  { x: 5, y: 1, color: "r"},
-  { x: 7, y: 1, color: "r"},
-  { x: 0, y: 2, color: "r"},
-  { x: 2, y: 2, color: "r"},
-  { x: 4, y: 2, color: "r"},
-  { x: 6, y: 2, color: "r"},
-  { x: 1, y: 5, color: "b"},
-  { x: 3, y: 5, color: "b"},
-  { x: 5, y: 5, color: "b"},
-  { x: 7, y: 5, color: "b"},
-  { x: 0, y: 6, color: "b"},
-  { x: 2, y: 6, color: "b"},
-  { x: 4, y: 6, color: "b"},
-  { x: 6, y: 6, color: "b"},
-  { x: 1, y: 7, color: "b"},
-  { x: 3, y: 7, color: "b"},
-  { x: 5, y: 7, color: "b"},
-  { x: 7, y: 7, color: "b"},
-];
+const startBoard = "rrrrrrrrrrrreeeeeeeebbbbbbbbbbbb";
 
 function initMatch( turnColor,redPlayerUID,blkPlayerUID ) {
-
-  //  construct the arrays
-  let board = new Array(8);
-  for (var i = 0; i < board.length; i++) {
-    board[i] = new Array(8);
-  }
-  // set all spaces to empty
-  for (let d = 0; d < 8; d++) {
-    for (let e = 0; e < 8; e++) {
-      board[d][e] = { color: "e", isKing: false};
-    }
-  }
-
-  // set the pieces
-  for (let f = 0; f < startBoard.length; f++) {
-    // console.log(startBoard[f].color);
-    if (startBoard[f].color == "r") {
-      // console.log("red one");
-      board[startBoard[f].x][startBoard[f].y] = {color: "r", isKing: false};
-    } else {
-      // console.log("black one");
-      board[startBoard[f].x][startBoard[f].y] = {color: "b", isKing: false};
-    }
-  }
-
+  setBoard(startBoard, null, null);
   // console.log(board);
 
   let stat = "pending";
-  if (redPlayerUID && blkPlayerUID) {
+  if (redPlayerUID && blkPlayerUID) {  // local game?
     stat = "active";
   }
 
-  return {turn: {color: turnColor, chain: false, chainSpace: {x: -1, y: -1}},
-          boardState: board,
+  return {turn: {color: turnColor, chain: false, chainSpace: null},
+          boardState: startBoard,
           redUID: redPlayerUID,
           blkUID: blkPlayerUID,
           status: stat

@@ -49,18 +49,23 @@ function initBoard( spw ) {
   let elemLeft = document.getElementById('board').offsetLeft;
   let elemTop = document.getElementById('board').offsetTop;
   document.getElementById('board').addEventListener('click', e => {
-    let x = Math.floor((e.pageX - elemLeft) / spWidth);
+    let x = Math.floor((e.pageX - elemLeft) / (spWidth));
     let y = Math.floor((e.pageY - elemTop) / spWidth);
-
-    // dispatch event
-    let bdClickEvent = new CustomEvent( 'bdclickevent', {
-      bubbles: true,
-      detail: {
-        x: x,
-        y: y
-      }
-    });
-    document.dispatchEvent(bdClickEvent);
+    let xx = ( x - (y % 2)) / 2;
+    let ind = y * 4 + xx;
+    console.log("wtf", x, y, xx, ind);
+    if (  xx % 1 == 0) {
+      let code = bdState.charAt(ind);
+      console.log("yoho", ind, code)
+      let bdClickEvent = new CustomEvent( 'bdclickevent', {
+        bubbles: true,
+        detail: {
+          index: ind,
+          code: code
+        }
+      });
+      document.dispatchEvent(bdClickEvent);
+    }
   });
   setBoard(bdState, sel, allMvs);
 }
@@ -75,7 +80,8 @@ function initBoard( spw ) {
  * @param {string} allMvs string of move codes????
  * @returns {object} status: ok || error, msg: <text>
  */
-function setBoard(bdState, sel, allMvs) {
+function setBoard(bdS, sel, allMvs) {
+  bdState = bdS;
   // draw the board
   let c = document.getElementById('board');
   let ctx = c.getContext("2d");
@@ -83,6 +89,7 @@ function setBoard(bdState, sel, allMvs) {
     for (var j = 0; j < 8; j++) {
       if (i % 2 == j % 2) {ctx.fillStyle = "white";}
       else {ctx.fillStyle = "grey";  }
+      if (i == 1) {ctx.fillStyle = "blue";}
       ctx.fillRect(spWidth * i, spWidth * j, spWidth, spWidth)
     }
   }
@@ -115,9 +122,11 @@ function setBoard(bdState, sel, allMvs) {
   }
 
   // draw possible moves
-  for (var i = 0; i < allMvs.length; i++) {
-    if (allMvs[i] == "m") {
-      _drawPossibleMove( i, ctx);
+  if (allMvs) {
+    for (var i = 0; i < allMvs.length; i++) {
+      if (allMvs[i] == "m") {
+        _drawPossibleMove( i, ctx);
+      }
     }
   }
 }
@@ -128,6 +137,7 @@ function setBdState (newState) {
 
 function setSel (newSel) {
   sel = newSel;
+  setBoard(bdState, sel, allMvs);
 }
 
 function setAllMvs (newAllMvs) {
@@ -152,9 +162,10 @@ function setSpace( index, pc ) {
  * @param {boolean} isSelected  turn on or off?
  * @returns {object} status: ok || error, msg: <text>
  */
-function setSelection( index, isSelected ) {
-  return { status: "ok", msg: "you are a programming GOD"};
-}
+// function setSelection( index, isSelected ) {
+//
+//   return { status: "ok", msg: "you are a programming GOD"};
+// }
 
 function _drawPiece( color, index, ctx ) {
   let [x, y] = _getXY(index);
