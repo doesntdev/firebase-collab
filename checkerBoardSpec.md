@@ -4,6 +4,8 @@ The state of the board is modeled as a String of 32 characters, "e" || "r" || "R
 Essentially an 8 x 4 array of empty, red, redKing, black, blackKing.
 The method of display is left to the implementations as long as they implement the interface.
 
+Should there be an event representing a "move"?  Thinking of something like drag-n-drop.
+
 ## constructor
 
 * will build all needed DOM elements and append to a <div id="checkerboard> 
@@ -17,6 +19,10 @@ The method of display is left to the implementations as long as they implement t
   replaces currently displayed pieces gameState with the new one
 
 * setSpace( index: 0..31, pc: ["e" || "r" || "R" || "b" || "B"] )
+
+* setSelection( index: Integer, isSelected: bool );
+
+// TODO  how to represent possible legal moves
 
 ## Example
 
