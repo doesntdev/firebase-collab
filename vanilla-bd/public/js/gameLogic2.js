@@ -7,13 +7,13 @@ let allMoves = [];
 
 
 document.addEventListener("DOMContentLoaded", event => {
-  boardInit();
+  initBoard(27);
   // initGame();
   match = initMatch( "r","A", "A" );
-  draw(match.boardState, selected, allMoves);
-  document.addEventListener('bdclickevent', e => {
-    handleBdClick( e.detail.x, e.detail.y )
-  });
+  // draw(match.boardState, selected, allMoves);
+  // document.addEventListener('bdclickevent', e => {
+  //   handleBdClick( e.detail.x, e.detail.y )
+  // });
 });
 
 // function initGame () {
