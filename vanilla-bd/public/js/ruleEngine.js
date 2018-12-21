@@ -60,7 +60,8 @@ function getAllJumps(match) {
 }
 
 // boolean  assumes somehas already checked that to is "e"
-function isLegalMv(fmcode, fm, to) {
+function isLegalMv(match, fm, to) {
+  let fmcode = match.boardState[fm];
   let itsLegal = false;
   let yfm = Math.floor(fm / 4);
   let xfm = fm % 4;
@@ -96,9 +97,58 @@ function isLegalMv(fmcode, fm, to) {
   return itsLegal;
 }
 
-// boolean
-function isLegalJump(fm, to) {
-  return true;
+// boolean  assumes somehas already checked that to is "e"
+function isLegalJump(match, fm, to) {
+  let fmcode = match.boardState[fm];
+  let jumpcode = "red";
+  if (fmcode == 'b' || fmcode == 'B') { jumpcode = "black"}
+  let yfm = Math.floor(fm / 4);
+  let xfm = fm % 4;
+  let diff = to - fm - (yfm % 2);  // shifts odd rows
+  console.log(fmcode, jumpcode, xfm, yfm, diff);
+
+  let itsLegal = [false, 32];
+  let jumpPc = 'e';
+
+  if ( fmcode != "b" && yfm < 6 && xfm > 0 && diff == 7) {
+    jumpPc = match.boardState[fm + 3]
+    if ((fmcode == 'r' || fmcode == 'R') && (jumpPc == 'b' || jumpPc == 'B')){
+      itsLegal = [true, fm + 3];
+    }
+    console.log("hit 1");
+  } else {
+    console.log("hit 1",fmcode != "b", yfm < 7, xfm > 0, diff == 7)
+  }
+  if ( fmcode != "b" && yfm < 6 && xfm < 4 && diff == 9) {
+    jumpPc = match.boardState[fm + 4]
+    if ((fmcode == 'r' || fmcode == 'R') && (jumpPc == 'b' || jumpPc == 'B')){
+      itsLegal = [true, fm + 4];
+    }
+    console.log("hit 2");
+  } else {
+    console.log("hit 2",fmcode != "b", yfm < 6, xfm < 4, diff == 9)
+  }
+  if ( fmcode != "r" && yfm > 1 && xfm > 0 && diff == -9) {
+    jumpPc = match.boardState[fm + -4]
+    if ((fmcode == 'b' || fmcode == 'B') && (jumpPc == 'r' || jumpPc == 'R')){
+      itsLegal = [true, fm + -4];
+    }
+    console.log("hit 3");
+  } else {
+    console.log("hit 3",fmcode != "r", yfm >1, xfm > 0, diff == -9)
+  }
+  if ( fmcode != "r" && yfm > 1 && xfm < 4 && diff == -7) {
+    jumpPc = match.boardState[fm + -3]
+    if ((fmcode == 'b' || fmcode == 'B') && (jumpPc == 'r' || jumpPc == 'R')){
+      itsLegal = [true, fm + -3];
+    }
+    console.log("hit 4");
+  }
+  else {
+    console.log("hit 4",fmcode != "r", yfm > 1, xfm < 4, diff == -7)
+  }
+
+  return itsLegal;
 }
 
 // modifies the match state by processing the moves
@@ -113,7 +163,9 @@ function doTheJump( fm, to ) {
 
 // ******************  other functions   *****************
 
-const startBoard = "rrrrrrrrrrrreeeeeeeebbbbbbbbbbbb";
+const startBoard = "eeeerrrrbbbbrrrreeeeeeeeeeeeeeee";
+// const startBoard = "rrrrbbbbrrrreeeeeeeeeeeeeeeeeeee";
+// const startBoard = "eeeeeeeeeeeeeeeeeeeerrrrbbbbrrrr";
 
 function initMatch( turnColor,redPlayerUID,blkPlayerUID ) {
   setBoard(startBoard, null, null);
