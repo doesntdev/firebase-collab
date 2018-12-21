@@ -34,18 +34,6 @@ function handleBdClick ( index, code ) {
 
   console.log("in the board click", index, code);
 
-
-//  Board Click logic
-// function handleBdClick ( i, j ) {
-//   //check for remote play turn
-//   if ( !localPlay && yourColor != boardState.turn) {
-//     console.log(" not your turn");
-//     return;
-//   }
-//
-//
-//   let space = match.boardState[i][j];
-//
   if (code != "e") {  //not empty
     // is there a selected.piece piece already for this turn
     if (code == match.turn.color) {
@@ -61,11 +49,14 @@ function handleBdClick ( index, code ) {
       console.log("not selected.piece or wrong color ");
       return;
     }
-  } //else {
-//     console.log("empty space");
-//     let hoh = doMove(match, {fm: selected, to: {x: i, y: j}});
-//     console.log(hoh);
-//   }
+  } else {
+    if ( selected ) {
+      let hoh = doMove(match, selected, index);
+      console.log(hoh);
+    } else {
+      console.log("empty space, no selected piece");
+    }
+  }
   //
   //
   // // see if space clicked is empty or not
