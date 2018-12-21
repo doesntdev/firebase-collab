@@ -6,7 +6,7 @@
 
 let bdState = "rrrreeeeeeeeeeeeeeeeeeeeeeeebbbb";
 let sel = 8;
-let allMvs = "rrrrmmmmeeeeeeeeeeeeeeeeeeeebbbb";
+let allMvs = "rrrreeeeeeeeeeeeeeeeeeeeeeeebbbb";
 
 let spWidth = 63;  //  space dimension in pixels
 let spCenter = 32;  //  int value of half a space
@@ -89,7 +89,6 @@ function setBoard(bdS, sel, allMvs) {
     for (var j = 0; j < 8; j++) {
       if (i % 2 == j % 2) {ctx.fillStyle = "white";}
       else {ctx.fillStyle = "grey";  }
-      if (i == 1) {ctx.fillStyle = "blue";}
       ctx.fillRect(spWidth * i, spWidth * j, spWidth, spWidth)
     }
   }
@@ -155,18 +154,6 @@ function setSpace( index, pc ) {
   return { status: "ok", msg: "you are a programming GOD"};
 }
 
-/**
- * sets the selection status of an individual space.
- *
- * @param {integer} index - of selected spaces
- * @param {boolean} isSelected  turn on or off?
- * @returns {object} status: ok || error, msg: <text>
- */
-// function setSelection( index, isSelected ) {
-//
-//   return { status: "ok", msg: "you are a programming GOD"};
-// }
-
 function _drawPiece( color, index, ctx ) {
   let [x, y] = _getXY(index);
   ctx.beginPath();
@@ -202,7 +189,6 @@ function _drawPossibleMove(index, ctx) {
   ctx.fillStyle = "blue";
   ctx.fill()
 }
-
 
 function _getXY ( index ) {
   if (index >= 0 && index <= 31) {
