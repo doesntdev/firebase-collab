@@ -1,11 +1,15 @@
 /***********
 *  decoupled checkers rules
+*
+*
 */
 // apply the rules of checkers to a move and calculate the new gameState
 function doMove ( match, fm, to )  {
   let turn = match.turn;
   let fmcode = match.boardState[fm];
   let tocode = match.boardState[to];
+  let isLJ = false;  // is legal jump
+  let captured = null;  // index of captured piece
 
   console.log(fm, to, turn.chain, turn.chainSpace);
 
@@ -14,17 +18,21 @@ function doMove ( match, fm, to )  {
     return { lastMove: to, newMatchState: match, msg: "Move is illegal" };
   }
 
-  // Check chain first
-  let isLJ = isLegalJump( fm, to);
-  if (turn.chain && isLJ && turn.chainSpace == fm) {
-    console.log("chain jump");
-    return doTheJump(fm, to);
+  if ( fm - to > 5 || to - fm > 5){
+    [ isLJ, captured ] = isLegalJump( fm, to);
+
+    // Check chain first
+    if (turn.chain && isLJ && turn.chainSpace == fm) {
+      console.log("chain jump");
+      return doTheJump(fm, to);
+    }
+
+    // test for a jump
+    if (!turn.chain && isLJ) {
+      return doTheJump(fm, to);
+    }
   }
 
-  // test for a jump
-  if (!turn.chain && isLJ) {
-    return doTheJump(fm, to);
-  }
 
   // test for a normal ove
   let hasNoJump = getAllJumps().length == 0;
@@ -66,10 +74,9 @@ function isLegalMv(match, fm, to) {
   let x = fm % 4;
   let odd = (y % 2) ? true: false;;
   let dif = to - fm ;  // shifts odd rows
-  console.log(fmcode, x, y, odd, dif);
+  // console.log(fmcode, x, y, odd, dif);
 
-  let itsLegal = false;
-  let moves = {sw: false, se: false, nw: false, ne: false,}
+  let moves = {sw: false, se: false, nw: false, ne: false}
 
   moves.sw = fmcode != 'b' && y < 7  && (
     (!odd && dif == 3 && x > 0) || (odd && dif == 4 )
@@ -84,63 +91,52 @@ function isLegalMv(match, fm, to) {
     (odd && dif == -3 && x < 3) || (!odd && dif == -4 )
   )
 
-  return moves;
+  return moves.sw || moves.se || moves.nw || moves.ne;
 }
 
 // boolean  assumes somehas already checked that to is "e"
 function isLegalJump(match, fm, to) {
   let fmcode = match.boardState[fm];
-  let yfm = Math.floor(fm / 4);
-  let xfm = fm % 4;
-  let diff = to - fm - (yfm % 2);  // shifts odd rows
-  console.log(fmcode, xfm, yfm, diff);
+  let targetCode = 'b';
+  if (fmcode == 'b' || fmcode == 'B') { targetCode = 'r'}
+  let y = Math.floor(fm / 4);
+  let oddOffset = (y % 2)
+  let x = fm % 4;
+  let dif = to - fm ;  // shifts odd rows
+  console.log(fmcode, targetCode, x, y, dif);
 
-  let itsLegal = [false, 32];
-  let jumpPc = 'e';
+  let jumps = {sw: false, se: false, nw: false, ne: false,}
+  let isLegalJump = false;
+  let captured = null;
 
-  if ( fmcode != "b" && yfm < 6 && xfm > 0 && diff == 7) {
-    jumpPc = match.boardState[fm + 3]
-    if ((fmcode == 'r' || fmcode == 'R') && (jumpPc == 'b' || jumpPc == 'B')){
-      itsLegal = [true, fm + 3];
+  if ( fmcode != 'b' && y < 6  && dif == 7 && x > 0 ){
+    captured = fm + 3 + oddOffset;
+    if (match.boardState[captured].toLowerCase() == targetCode) {
+      jumps.sw = true;
     }
-    console.log("hit 1");
-  } else {
-    console.log("hit 1",fmcode != "b", jumpPc, yfm < 7, xfm > 0, diff == 7)
-    console.log("yo ", (fmcode == 'r' || fmcode == 'R'), (jumpPc == 'b' || jumpPc == 'B'))
   }
-  if ( fmcode != "b" && yfm < 6 && xfm < 4 && diff == 9) {
-    jumpPc = match.boardState[fm + 4]
-    if ((fmcode == 'r' || fmcode == 'R') && (jumpPc == 'b' || jumpPc == 'B')){
-      itsLegal = [true, fm + 4];
+  if ( fmcode != 'b' && y < 6  && dif == 9 && x < 3 ){
+    captured = fm + 4;
+    if (match.boardState[captured].toLowerCase() == targetCode) {
+      jumps.se = true + oddOffset;
     }
-    console.log("hit 2");
-  } else {
-    console.log("hit 2",fmcode != "b", jumpPc, yfm < 6, xfm < 4, diff == 9)
-    console.log("yo ", (fmcode == 'r' || fmcode == 'R'), (jumpPc == 'b' || jumpPc == 'B'))
   }
-  if ( fmcode != "r" && yfm > 1 && xfm > 0 && diff == -9) {
-    jumpPc = match.boardState[fm + -4]
-    if ((fmcode == 'b' || fmcode == 'B') && (jumpPc == 'r' || jumpPc == 'R')){
-      itsLegal = [true, fm + -4];
+  if( fmcode != 'r' && y > 1  && dif == -9 && x > 0 ){
+    captured = fm - 5 + oddOffset;
+    if (match.boardState[captured].toLowerCase() == targetCode) {
+      jumps.nw = true;
     }
-    console.log("hit 3");
-  } else {
-    console.log("hit 3",fmcode != "r", jumpPc, yfm >1, xfm > 0, diff == -9)
-    console.log("yo ", (fmcode == 'b' || fmcode == 'B'), (jumpPc == 'r' || jumpPc == 'R'))
   }
-  if ( fmcode != "r" && yfm > 1 && xfm < 4 && diff == -7) {
-    jumpPc = match.boardState[fm + -3]
-    if ((fmcode == 'b' || fmcode == 'B') && (jumpPc == 'r' || jumpPc == 'R')){
-      itsLegal = [true, fm + -3];
+  if ( fmcode != 'r' && y > 1  && dif == -7 && x < 3 ){
+    captured = fm - 4 + oddOffset;
+    if (match.boardState[captured].toLowerCase() == targetCode) {
+      jumps.ne = true;
     }
-    console.log("hit 4");
-  }
-  else {
-    console.log("hit 4",fmcode != "r", jumpPc, yfm > 1, xfm < 4, diff == -7)
-    console.log("yo ", (fmcode == 'b' || fmcode == 'B'), (jumpPc == 'r' || jumpPc == 'R'))
   }
 
-  return itsLegal;
+  console.log(jumps);
+  isLegalJump = jumps.sw || jumps.se || jumps.nw || jumps.ne;
+  return [ isLegalJump, captured ];
 }
 
 // modifies the match state by processing the moves
@@ -155,7 +151,8 @@ function doTheJump( fm, to ) {
 
 // ******************  other functions   *****************
 
-const startBoard = "eeeeeeerreeeeeeeeereeeeeeeeereee"; // test red moves
+// const startBoard = "eeeeeeerreeeeeeeeereeeeeeeeereee"; // test red moves
+const startBoard = "eeeerrerrbreebbeeereebbeeeeereee"; // test red moves
 // const startBoard = "rrrrbbbbrrrreeeeeeeeeeeeeeeeeeee";
 // const startBoard = "eeeeeeeeeeeeeeeeeeeerrrrbbbbrrrr";
 
