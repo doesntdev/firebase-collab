@@ -4,6 +4,8 @@ let localPlay = true;
 let yourColor = "r";
 let selected = null;
 let allMoves = [];
+let msg = "";
+let lastMove = null;
 
 
 document.addEventListener("DOMContentLoaded", event => {
@@ -51,8 +53,13 @@ function handleBdClick ( index, code ) {
     }
   } else {
     if ( selected ) {
-      let hoh = doMove(match, selected, index);
-      console.log(hoh);
+      let rslt = doMove(match, selected, index);
+      match = rslt.newMatchState;
+      lastMove = rslt.lastMove;
+      msg = rslt.msg;
+      selected = null;
+      setBoard(match.boardState, selected, []);
+      console.log(msg);
     } else {
       console.log("empty space, no selected piece");
     }
