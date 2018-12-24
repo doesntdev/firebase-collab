@@ -1,20 +1,25 @@
 /***********
 *  decoupled checkers rules
 *
-*
+*   fmcode ????
 */
 // apply the rules of checkers to a move and calculate the new gameState
 function doMove ( match, fm, to )  {
   let turn = match.turn;
   let fmcode = match.boardState[fm];
-  let tocode = match.boardState[to];
   let isLJ = false;  // is legal jump
   let captured = null;  // index of captured piece
+  let tocode = match.boardState[to];
+  let fmcolor = 'e';
+  if (fmcode == 'r' || fmcode == 'R') {fmcolor = 'r';}
+  if (fmcode == 'b' || fmcode == 'B') {fmcolor = 'b';}
+
+
 
   console.log(fm, to, turn.chain, turn.chainSpace);
 
   //  check turn, check space is empty
-  if (turn.color != fmcode || tocode != "e") {
+  if (turn.color != fmcolor || tocode != "e") {
     return { lastMove: {fm: fm, to: to}, newMatchState: match, msg: "Move is illegal 3" };
   }
 
@@ -28,6 +33,8 @@ function doMove ( match, fm, to )  {
       let code = match.boardState[fm];
       match.boardState = setSpace('e', fm, match.boardState);
       match.boardState = setSpace('e', captured, match.boardState);
+      if (to > 27  && code == 'r') {code = 'R'}
+      if (to < 4 && code == 'b') {code = 'B'}
       match.boardState = setSpace(code, to, match.boardState);
       if ( hasJump(match, to).length == 0 ) {
         match.turn = {color: 'b', chain: false, chainSpace: null};
@@ -61,6 +68,8 @@ function doMove ( match, fm, to )  {
   if (!hasAJump && isLM) {
     let code = match.boardState[fm];
     match.boardState = setSpace('e', fm, match.boardState);
+    if (to > 27  && code == 'r') {code = 'R'}
+    if (to < 4 && code == 'b') {code = 'B'}
     match.boardState = setSpace(code, to, match.boardState);
     match.turn = {color: 'b', chain: false, chainSpace: null};
     if (code == 'b') {match.turn.color = 'r';}
@@ -92,7 +101,6 @@ function getAllMvs(match) {
 function getAllJumps(match) {
   let jumpSet = new Set();
   let code = match.turn.color;
-  console.log(code);
   for (let i = 0; i < match.boardState.length; i++) {
     let testPiece = match.boardState[i];
     testCode = testPiece.toLowerCase();
@@ -120,7 +128,7 @@ function hasJump (match, fm) {
   let x = fm % 4;
   let jumps = [];
 
-  console.log(fmcode, targetCode, x, y);
+  // console.log(fmcode, targetCode, x, y);
 
   let testSpace = match.boardState[ fm + 7 ]
   if ( fmcode != 'b' && y < 6  && testSpace == 'e' && x > 0 ){
@@ -233,6 +241,7 @@ function isLegalJump(match, fm, to) {
 // const startBoard = "eeeeeeerreeebeeeeereebbeeeeereee"; // test red moves
 // const startBoard = "eeeerrerrbreebbeeereebbeeeeereee"; // test red moves
 const startBoard = "rrrrrrrrrrrreeeeeeeebbbbbbbbbbbb";
+// const startBoard = "eeeebbbbrrrreeeeeeeebbbbrrrreeee";
 // const startBoard = "eeeeeeeeeeeeeeeeeeeerrrrbbbbrrrr";
 
 function initMatch( turnColor,redPlayerUID,blkPlayerUID ) {

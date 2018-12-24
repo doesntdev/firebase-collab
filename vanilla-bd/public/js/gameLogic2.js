@@ -38,7 +38,9 @@ function handleBdClick ( index, code ) {
 
   if (code != "e") {  //not empty
     // is there a selected.piece piece already for this turn
-    if (code == match.turn.color) {
+    if (code == 'B') {code = 'b'}
+    if (code == 'R') {code = 'r'}
+    if (code == match.turn.color ) {
       if (selected == index) {
         selected = null;
         setSel(null);

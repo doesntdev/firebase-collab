@@ -53,10 +53,8 @@ function initBoard( spw ) {
     let y = Math.floor((e.pageY - elemTop) / spWidth);
     let xx = ( x - (y % 2)) / 2;
     let ind = y * 4 + xx;
-    console.log("wtf", x, y, xx, ind);
     if (  xx % 1 == 0) {
       let code = bdState.charAt(ind);
-      console.log("yoho", ind, code)
       let bdClickEvent = new CustomEvent( 'bdclickevent', {
         bubbles: true,
         detail: {
@@ -81,6 +79,7 @@ function initBoard( spw ) {
  * @returns {object} status: ok || error, msg: <text>
  */
 function setBoard(bdS, sel, allMvs) {
+  // console.log("bdS, sel, allMvs", bdS, sel, allMvs);
   bdState = bdS;
   // draw the board
   let c = document.getElementById('board');
@@ -94,7 +93,8 @@ function setBoard(bdS, sel, allMvs) {
   }
 
   // draw the selected space
-  if (sel) {
+  if (sel != undefined) {
+    // console.log("????????? ", sel);
     let [x, y] = _getXY(sel);
     ctx.fillStyle = "#00dd00";
     ctx.fillRect(x - spCenter, y - spCenter, spWidth, spWidth);
@@ -165,7 +165,8 @@ function _drawPiece( color, index, ctx ) {
 }
 
 function _drawKing( color, index, ctx ) {
-  let [x, y] = _getX(index);
+  // console.log("color, index, ctx ", color, index)
+  let [x, y] = _getXY(index);
   ctx.beginPath();
   let radius = Math.ceil(spWidth * .4)
   ctx.arc(x, y, radius, 0, 2 * Math.PI);
@@ -174,7 +175,7 @@ function _drawKing( color, index, ctx ) {
   ctx.fill()
   ctx.beginPath();
   let smradius = Math.ceil(spWidth * .2)
-  ctx.arc(x, y, radius, 0, 2 * Math.PI);
+  ctx.arc(x, y, smradius, 0, 2 * Math.PI);
   ctx.stroke();
   ctx.fillStyle = "yellow";
   ctx.fill()
@@ -192,6 +193,7 @@ function _drawPossibleMove(index, ctx) {
 
 function _getXY ( index ) {
   if (index >= 0 && index <= 31) {
+    // console.log("****************", index)
     return indexLookup[index];
   }
   alert("wtf")
