@@ -81,20 +81,25 @@ function doMove ( match, fm, to )  {
 }
 
 
-
-//  return an array of all possible one space moves from the index
-function posMvs(ind, match) {
-
-}
-
-//  return an array of all possible one space jumps from the index
-function posJumps(ind) {
-
-}
-
 // returns an array of all possible next moves
 function getAllMvs(match) {
-
+  let moveSet = new Set();
+  let code = match.turn.color;
+  for (let i = 0; i < match.boardState.length; i++) {
+    let testPiece = match.boardState[i];
+    testCode = testPiece.toLowerCase();
+    if ( testCode == code ) {
+      let testMoves = hasMove( match, i);
+      for (var j = 0; j < testMoves.length; j++) {
+        moveSet.add(testMoves[j]);
+      }
+    }
+  }
+  let allMoves = [];
+  for (let move of moveSet) {
+    allMoves.push(move);
+  }
+  return allMoves;
 }
 
 //  returns an array of all possible jumps in the gameState
@@ -116,6 +121,39 @@ function getAllJumps(match) {
     allJumps.push(jump);
   }
   return allJumps;
+}
+
+// ******************  other functions   *****************
+
+// returns an array of legal moves from "fm"
+function hasMove ( match, fm ) {
+  let fmcode = match.boardState[fm];
+  let y = Math.floor(fm / 4);
+  let x = fm % 4;
+  let odd = (y % 2) ? true: false;;
+  //let dif = to - fm ;  // shifts odd rows
+  // console.log(fmcode, x, y, odd, dif);
+
+  let moves = [];
+
+  let testSpace = match.boardState[ fm + 3 + odd ];
+  if (fmcode != 'b' && y < 7  && x > 0) {
+    moves.push(testSpace);
+  }
+  testSpace = match.boardState[ fm + 4 + odd ];
+  if (fmcode != 'b' && y < 7  &&  x < 3) {
+    moves.push(testSpace);
+  }
+  testSpace = match.boardState[ fm - 5 + odd ];
+  if (fmcode != 'r' && y > 0  && x > 0) {
+    moves.push(testSpace);
+  }
+  testSpace = match.boardState[ fm - 4 + odd ];
+  if (fmcode != 'r' && y > 0  && x < 3) {
+    moves.push(testSpace);
+  }
+
+  return moves;
 }
 
 // returns an array of legal jumps from "fm"
@@ -236,7 +274,7 @@ function isLegalJump(match, fm, to) {
 
 
 
-// ******************  other functions   *****************
+
 
 // const startBoard = "eeeeeeerreeebeeeeereebbeeeeereee"; // test red moves
 // const startBoard = "eeeerrerrbreebbeeereebbeeeeereee"; // test red moves
@@ -260,4 +298,14 @@ function initMatch( turnColor,redPlayerUID,blkPlayerUID ) {
 
 function setSpace(chr, index, bdState) {
   return bdState.substr(0,index) + chr + bdState.substr(index+1);
+}
+
+//  return an array of all possible one space moves from the index
+function posMvs(ind, match) {
+
+}
+
+//  return an array of all possible one space jumps from the index
+function posJumps(ind) {
+
 }
