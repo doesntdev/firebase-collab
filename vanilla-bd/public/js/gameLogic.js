@@ -47,8 +47,8 @@ function handleBdClick ( index, code ) {
       } else {
         selected = index;
       }
-      //  TODO calculate possible moves
-      setBoard(match.boardState, selected, []);
+      allMoves = getPosSpaces(match)
+      setBoard(match.boardState, selected, allMoves);
     } else {
       console.log("not selected.piece or wrong color ");
       return;
@@ -60,7 +60,8 @@ function handleBdClick ( index, code ) {
       lastMove = rslt.lastMove;
       msg = rslt.msg;
       selected = null;
-      setBoard(match.boardState, selected, []);
+      allMoves = getPosSpaces(match)
+      setBoard(match.boardState, selected, allMoves);
       console.log(msg);
     } else {
       console.log("empty space, no selected piece");

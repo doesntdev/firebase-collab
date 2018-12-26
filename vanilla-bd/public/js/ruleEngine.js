@@ -67,10 +67,10 @@ function doMove ( match, fm, to )  {
       match.boardState[to] = code;
       if ( hasJump(match, to).length == 0 ) {
         match.turn = {color: 'b', chain: false, chainSpace: null};
-        if (code == 'b') {match.turn.color = 'r';}
+        if (code == 'b' || code == 'B') {match.turn.color = 'r';}
       } else {
         match.turn = {color: 'b', chain: true, chainSpace: to};
-        if (code == 'r') {match.turn.color = 'r';}
+        if (code == 'r' || code == 'R') {match.turn.color = 'r';}
       }
 
       return { lastMove: {fm: fm, to: to}, newMatchState: match, msg: "Great Jump!!!" };
@@ -101,7 +101,7 @@ function doMove ( match, fm, to )  {
     if (to < 4 && code == 'b') {code = 'B'}
     match.boardState[to] = code;
     match.turn = {color: 'b', chain: false, chainSpace: null};
-    if (code == 'b') {match.turn.color = 'r';}
+    if (code == 'b' || code == 'B') {match.turn.color = 'r';}
     return { lastMove: {fm: fm, to: to}, newMatchState: match, msg: "Great Move!!" };
   }
 
@@ -151,6 +151,20 @@ function getAllJumps(match) {
   }
   return allJumps;
 }
+
+function getPosSpaces(match) {
+  let resultArray = []
+  let jmps = getAllJumps(match);
+  if (jmps.length > 0) {
+    for (var i = 0; i < jmps.length; i++) {
+      resultArray.push(jmps[i][0]);
+    }
+  } else {
+    resultArray = getAllMvs(match);
+  }
+  return resultArray;
+}
+
 
 // ******************  other functions   *****************
 

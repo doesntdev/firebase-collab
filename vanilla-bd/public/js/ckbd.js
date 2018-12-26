@@ -15,16 +15,7 @@ let bdState = [
   'e','e','e','e',
 ];
 let sel = null;
-let allMvs = [
-  'e','e','e','e',
-  'e','e','e','e',
-  'e','e','e','e',
-  'e','m','e','e',
-  'e','e','m','e',
-  'e','e','e','e',
-  'e','e','e','e',
-  'e','e','e','e',
-];
+let allMvs = [14,31,0];
 
 let spWidth = 63;  //  space dimension in pixels
 let spCenter = 32;  //  int value of half a space
@@ -140,9 +131,7 @@ function setBoard(bdS, sel, allMvs) {
   // draw possible moves
   if (allMvs) {
     for (var i = 0; i < allMvs.length; i++) {
-      if (allMvs[i] == "m") {
-        _drawPossibleMove( i, ctx);
-      }
+      _drawPossibleMove( allMvs[i], ctx);
     }
   }
 }
