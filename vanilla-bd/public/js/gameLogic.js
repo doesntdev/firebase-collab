@@ -1,215 +1,74 @@
-let user = {};
-let gameState = {
-  board: [],
-  turn: "black"
-};
+let user = {uid: "A"};
+let match = {};
 let localPlay = true;
-let yourColor = "red";
-let selected = {index: null, piece: null};
-let jumpExists = false;
+let yourColor = "r";
+let selected = null;
 let allMoves = [];
+let msg = "";
+let lastMove = null;
+
 
 document.addEventListener("DOMContentLoaded", event => {
-  boardInit();
-  initGame();
+  initBoard(63);
+  console.log("before initMatch")
+  match = initMatch( "r","A", "A" );
+  console.log("after initMatch")
+  setBoard(match.boardState, selected, allMoves);
   document.addEventListener('bdclickevent', e => {
-    handleBdClick( e.detail.x, e.detail.y )
+    handleBdClick( e.detail.index, e.detail.code )
   });
 });
 
-function initGame () {
-  gameState.turn = "black";
-  gameState.board = [
-    { x: 0, y: 0, color: "red"},
-    { x: 2, y: 0, color: "red"},
-    { x: 4, y: 0, color: "red"},
-    { x: 6, y: 0, color: "red"},
-    { x: 1, y: 1, color: "red"},
-    { x: 3, y: 1, color: "red"},
-    { x: 5, y: 1, color: "red"},
-    { x: 7, y: 1, color: "red"},
-    { x: 0, y: 2, color: "red"},
-    { x: 2, y: 2, color: "red"},
-    { x: 4, y: 2, color: "red"},
-    { x: 6, y: 2, color: "red", isKing: true},
-    { x: 1, y: 5, color: "black"},
-    { x: 3, y: 5, color: "black"},
-    { x: 5, y: 5, color: "black"},
-    { x: 7, y: 5, color: "black"},
-    { x: 0, y: 6, color: "black"},
-    { x: 2, y: 6, color: "black"},
-    { x: 4, y: 6, color: "black"},
-    { x: 6, y: 6, color: "black"},
-    { x: 1, y: 7, color: "black"},
-    { x: 3, y: 7, color: "black"},
-    { x: 5, y: 7, color: "black"},
-    { x: 7, y: 7, color: "black"},
-  ];
-  calculateMoves();
-  draw(gameState.board, selected);
-}
+// function initGame () {
+//   match = initMatch( "r","A", "B" )
+//   //calculateMoves();
+//   console.log(match);
+//   draw(match.boardState, selected, allMoves);
+// }
 
-//  Board Click logic
-function handleBdClick ( i, j ) {
-  //check for remote play turn
-  if ( !localPlay && yourColor != gameState.turn) {
+
+function handleBdClick ( index, code ) {
+
+  // check for remote play and turn
+  if ( match.redUID != match.blkUID && yourColor != match.turn.color) {
     console.log(" not your turn");
     return;
   }
 
-  // see if space clicked is empty or not
-  let [pcIndex, piece] = _getPc( i, j );
-  if (piece) {  //not empty
+  console.log("in the board click", index, code);
 
+  if (code != "e") {  //not empty
     // is there a selected.piece piece already for this turn
-    if (piece.color == gameState.turn) {
-      if (piece == selected.piece) {
-        selected = {index: null, piece: null};
+    if (code == 'B') {code = 'b'}
+    if (code == 'R') {code = 'r'}
+    if (code == match.turn.color ) {
+      if (selected == index) {
+        selected = null;
       } else {
-        selected = {index: pcIndex, piece: piece};
+        selected = index;
       }
-      calculateMoves();
-      draw(gameState.board, selected);
-      return;
+      allMoves = getPosSpaces(match)
+      setBoard(match.boardState, selected, allMoves);
     } else {
-      console.log("not selected.piece or wrong color " + piece.color);
+      console.log("not selected.piece or wrong color ");
       return;
     }
-  } else {  // space is empty
-    if (localPlay && selected.piece) {
-      // let moveResult = _submitMoveLocal( i, j);
-      let isLegal = false;
-      let capture = null;
-      for (var z = 0; z < allMoves.length; z++) {
-        if (allMoves[z].x == i &&
-            allMoves[z].y == j) {
-          isLegal = true;
-          capture = allMoves[z].jump;
-        }
-      }
-      if (isLegal) {
-        gameState.board[selected.index].x = i;
-        gameState.board[selected.index].y = j;
-
-        if (capture) {
-          removePcs(capture);
-          calculateMoves()
-          console.log("special capture calculation")
-          console.log(allMoves);
-          let chain = false;
-          for (var i = 0; i < allMoves.length; i++) {
-            if (allMoves[i].jump) {chain = true;}
-          }
-          console.log("chain", chain);
-          if (!chain) {
-            console.log("in not chain");
-            selected = {index: null, piece: null};
-            toggleTurn();
-          }
-        } else {
-          selected = {index: null, piece: null};
-          toggleTurn();
-        }
-
-        draw(gameState.board, selected);
-      } else {
-        console.log("illegal move");
-      }
+  } else {
+    if ( selected ) {
+      let rslt = doMove(match, selected, index);
+      match = rslt.newMatchState;
+      lastMove = rslt.lastMove;
+      msg = rslt.msg;
+      selected = null;
+      allMoves = getPosSpaces(match)
+      setBoard(match.boardState, selected, allMoves);
+      console.log(msg);
     } else {
-      _submitMoveRemote( selected, i, j );  // TODO hook up to cloud function
+      console.log("empty space, no selected piece");
     }
   }
 }
 
 function _submitMoveRemote( sel, i, j ) {
   alert(" submitting remote move");
-}
-
-// *******************  utilities   **********************
-
-function clearBoard () {
-  gameState.board = [];
-}
-
-function toggleTurn () {
-  gameState.turn == "red" ? gameState.turn = "black" : gameState.turn = "red";
-  calculateMoves();
-}
-
-function removePcs (pc) {
-  console.log("yoho", pc.x, pc.y, pc.color)
-  let [pcIndex, pcObj] = _getPc(pc.x, pc.y)
-  gameState.board.splice(pcIndex, 1);
-}
-
-function _getPc ( x, y ) {
-  let result = [null,null];
-  for (var i = 0; i < gameState.board.length; i++) {
-    if (gameState.board[i].x === x && gameState.board[i].y === y) {
-      result = [i, gameState.board[i]];
-    }
-  }
-  return result;
-}
-
-function calculateMoves() {
-  allMoves = [];
-  jumpExists = false;
-  for (var i = 0; i < gameState.board.length; i++) {
-    console.log(gameState.turn, gameState.board[i].isKing)
-    if (
-      (gameState.turn == "red" && gameState.board[i].color == "red" ) ||
-      (gameState.board[i].isKing  && gameState.turn == gameState.board[i].color)
-    ){
-      calculateDiagonals(i, gameState.board[i], 1, 1);
-      calculateDiagonals(i, gameState.board[i], -1, 1);
-    }
-    if (
-      (gameState.turn == "black" && gameState.board[i].color == "black")  ||
-      (gameState.board[i].isKing  && gameState.turn == gameState.board[i].color)
-    ){
-      calculateDiagonals(i, gameState.board[i], -1, -1);
-      calculateDiagonals(i, gameState.board[i], 1, -1);
-    }
-  }
-
-  if (selected.piece) {
-    let tempArray = [];
-    for (var j = 0; j < allMoves.length; j++) {
-      if (selected.index == allMoves[j].index) {tempArray.push(allMoves[j]);}
-    }
-    allMoves = tempArray;
-  }
-
-  if (jumpExists) {
-    let tempArray = [];
-    for (var j = 0; j < allMoves.length; j++) {
-      if (allMoves[j].jump) {tempArray.push(allMoves[j]);}
-    }
-    allMoves = tempArray;
-  }
-
-  console.log(allMoves);
-}
-
-function calculateDiagonals(pcIndex, pc, xdirection, ydirection) {
-    let x = pc.x + xdirection;
-    if (x < 0 || x > 7 ) {return;}
-    let y = pc.y + ydirection;
-    if (y < 0 || y > 7 ) {return;}
-    let [h, diagpcs] = _getPc( x, y );
-    if (!diagpcs ) {
-      allMoves.push({index: pcIndex, x: x, y: y, jump: null});
-    }
-    if (diagpcs && diagpcs.color != gameState.turn) {
-      let xx = x + xdirection;
-      if (xx < 0 || xx > 7 ) {return;}
-      let yy = y + ydirection;
-      if (yy < 0 || yy > 7 ) {return;}
-      let [hh, diagpcs2] = _getPc( xx, yy );
-      if (!diagpcs2) {
-        jumpExists = true;
-        allMoves.push({index: pcIndex, x: xx, y: yy, jump: diagpcs});
-      }
-    }
 }
