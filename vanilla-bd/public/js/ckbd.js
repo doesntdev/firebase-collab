@@ -147,18 +147,18 @@ function setBoard(bdS, sel, allMvs) {
   }
 }
 
-function setBdState (newState) {
-  bdState = newState;
-}
-
-function setSel (newSel) {
-  sel = newSel;
-  setBoard(bdState, sel, allMvs);
-}
-
-function setAllMvs (newAllMvs) {
-  allMvs = newAllMvs;
-}
+// function setBdState (newState) {
+//   bdState = newState;
+// }
+//
+// function setSel (newSel) {
+//   sel = newSel;
+//   setBoard(bdState, sel, allMvs);
+// }
+//
+// function setAllMvs (newAllMvs) {
+//   allMvs = newAllMvs;
+// }
 
 /**
  * sets the status of an individual space.

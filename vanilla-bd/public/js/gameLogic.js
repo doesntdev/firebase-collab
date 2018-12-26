@@ -44,12 +44,11 @@ function handleBdClick ( index, code ) {
     if (code == match.turn.color ) {
       if (selected == index) {
         selected = null;
-        setSel(null);
       } else {
         selected = index;
-        setSel(index);
       }
       //  TODO calculate possible moves
+      setBoard(match.boardState, selected, []);
     } else {
       console.log("not selected.piece or wrong color ");
       return;
