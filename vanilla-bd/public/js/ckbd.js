@@ -4,13 +4,31 @@
  *
  */
 
-let bdState = "rrrreeeeeeeeeeeeeeeeeeeeeeeebbbb";
-let sel = 8;
-let allMvs = "rrrreeeeeeeeeeeeeeeeeeeeeeeebbbb";
+let bdState = [
+  'e','e','e','e',
+  'e','r','e','e',
+  'e','e','R','e',
+  'e','e','e','e',
+  'e','e','e','e',
+  'e','e','b','e',
+  'e','B','e','e',
+  'e','e','e','e',
+];
+let sel = null;
+let allMvs = [
+  'e','e','e','e',
+  'e','e','e','e',
+  'e','e','e','e',
+  'e','m','e','e',
+  'e','e','m','e',
+  'e','e','e','e',
+  'e','e','e','e',
+  'e','e','e','e',
+];
 
 let spWidth = 63;  //  space dimension in pixels
 let spCenter = 32;  //  int value of half a space
-let indexLookup = []
+let indexLookup = []  // lookup table related coordinates to pixels
 
 
 /**
@@ -25,11 +43,10 @@ function initBoard( spw ) {
   //initialize board indexes
   spWidth = spw;
   spCenter = Math.ceil( spw / 2 );
-  console.log("constants", spWidth, spCenter)
+
   for (var i = 0; i < 32; i++) {
     let yy = Math.floor( i / 4 ) * spWidth + spCenter;
     let xx = ((yy % 2) + (i % 4) * 2) * spWidth + spCenter;
-    // indexLookup[i] = { x: xx, y: yy };
     indexLookup[i] = [xx, yy];
   }
 
@@ -54,7 +71,7 @@ function initBoard( spw ) {
     let xx = ( x - (y % 2)) / 2;
     let ind = y * 4 + xx;
     if (  xx % 1 == 0) {
-      let code = bdState.charAt(ind);
+      let code = bdState[ind];
       let bdClickEvent = new CustomEvent( 'bdclickevent', {
         bubbles: true,
         detail: {
@@ -73,7 +90,7 @@ function initBoard( spw ) {
  * selected space highlights, then it draws the pieces and
  * then possible moves
  *
- * @param {string} bdState  length == 32, e || r || R || b || B
+ * @param {array} bdState  length == 32, e || r || R || b || B
  * @param {integer} sel index of selected spaces
  * @param {string} allMvs string of move codes????
  * @returns {object} status: ok || error, msg: <text>

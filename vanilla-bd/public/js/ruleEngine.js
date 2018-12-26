@@ -3,6 +3,34 @@
 *
 *   fmcode ????
 */
+
+
+// const startBoard = "eeeeeeerreeebeeeeereebbeeeeereee"; // test red moves
+// const startBoard = "eeeerrerrbreebbeeereebbeeeeereee"; // test red moves
+const startBoard = "rrrrrrrrrrrreeeeeeeebbbbbbbbbbbb";
+// const startBoard = "eeeebbbbrrrreeeeeeeebbbbrrrreeee";
+// const startBoard = "eeeeeeeeeeeeeeeeeeeerrrrbbbbrrrr";
+
+function initMatch( turnColor,redPlayerUID,blkPlayerUID ) {
+  // populate an array
+  let initBoard = [];
+  for (var i = 0; i < startBoard.length; i++) {
+    initBoard[i] = startBoard[i];
+  }
+  setBoard(initBoard, null, null);
+  let stat = "pending";
+  if (redPlayerUID && blkPlayerUID) {  // local game?
+    stat = "active";
+  }
+  return {turn: {color: turnColor, chain: false, chainSpace: null},
+    boardState: initBoard,
+    redUID: redPlayerUID,
+    blkUID: blkPlayerUID,
+    status: stat
+  };
+}
+
+
 // apply the rules of checkers to a move and calculate the new gameState
 function doMove ( match, fm, to )  {
   let turn = match.turn;
@@ -31,11 +59,12 @@ function doMove ( match, fm, to )  {
     if ( isLJ && ((!turn.chain) || (turn.chain && turn.chainSpace == fm))) {
       console.log("jump");
       let code = match.boardState[fm];
-      match.boardState = setSpace('e', fm, match.boardState);
-      match.boardState = setSpace('e', captured, match.boardState);
+      match.boardState[fm] = 'e';
+      match.boardState[captured] = 'e';
+      //  check for kinging
       if (to > 27  && code == 'r') {code = 'R'}
       if (to < 4 && code == 'b') {code = 'B'}
-      match.boardState = setSpace(code, to, match.boardState);
+      match.boardState[to] = code;
       if ( hasJump(match, to).length == 0 ) {
         match.turn = {color: 'b', chain: false, chainSpace: null};
         if (code == 'b') {match.turn.color = 'r';}
@@ -67,10 +96,10 @@ function doMove ( match, fm, to )  {
   let isLM = isLegalMv(match, fm, to);
   if (!hasAJump && isLM) {
     let code = match.boardState[fm];
-    match.boardState = setSpace('e', fm, match.boardState);
+    match.boardState[fm] = 'e';
     if (to > 27  && code == 'r') {code = 'R'}
     if (to < 4 && code == 'b') {code = 'B'}
-    match.boardState = setSpace(code, to, match.boardState);
+    match.boardState[to] = code;
     match.turn = {color: 'b', chain: false, chainSpace: null};
     if (code == 'b') {match.turn.color = 'r';}
     return { lastMove: {fm: fm, to: to}, newMatchState: match, msg: "Great Move!!" };
@@ -276,29 +305,11 @@ function isLegalJump(match, fm, to) {
 
 
 
-// const startBoard = "eeeeeeerreeebeeeeereebbeeeeereee"; // test red moves
-// const startBoard = "eeeerrerrbreebbeeereebbeeeeereee"; // test red moves
-const startBoard = "rrrrrrrrrrrreeeeeeeebbbbbbbbbbbb";
-// const startBoard = "eeeebbbbrrrreeeeeeeebbbbrrrreeee";
-// const startBoard = "eeeeeeeeeeeeeeeeeeeerrrrbbbbrrrr";
 
-function initMatch( turnColor,redPlayerUID,blkPlayerUID ) {
-  setBoard(startBoard, null, null);
-  let stat = "pending";
-  if (redPlayerUID && blkPlayerUID) {  // local game?
-    stat = "active";
-  }
-  return {turn: {color: turnColor, chain: false, chainSpace: null},
-    boardState: startBoard,
-    redUID: redPlayerUID,
-    blkUID: blkPlayerUID,
-    status: stat
-  };
-}
 
-function setSpace(chr, index, bdState) {
-  return bdState.substr(0,index) + chr + bdState.substr(index+1);
-}
+// function setSpace(chr, index, bdState) {
+//   return bdState.substr(0,index) + chr + bdState.substr(index+1);
+// }
 
 //  return an array of all possible one space moves from the index
 function posMvs(ind, match) {
