@@ -17,7 +17,7 @@ function initMatch( turnColor,redPlayerUID,blkPlayerUID ) {
   for (var i = 0; i < startBoard.length; i++) {
     initBoard[i] = startBoard[i];
   }
-  setBoard(initBoard, null, null);
+  // setBoard(initBoard, null, null);
   let stat = "pending";
   if (redPlayerUID && blkPlayerUID) {  // local game?
     stat = "active";
@@ -276,10 +276,12 @@ function isLegalJump(match, fm, to) {
 
 //  return an array of all possible one space moves from the index
 function posMvs(ind, match) {
-
+  return [12, 13, 14, 15];
 }
 
 //  return an array of all possible one space jumps from the index
 function posJumps(ind) {
-
+  return 2;
 }
+
+module.exports = { getPosSpaces, getAllJumps, posJumps, posMvs, initMatch }
