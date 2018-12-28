@@ -117,7 +117,10 @@ function getPosSpaces(match) {
       resultArray.push(jmps[i][0]);
     }
   } else {
-    resultArray = getAllMvs(match);
+    let mvs = getAllMvs(match);
+    for (var i = 0; i < mvs.length; i++) {
+      resultArray.push(mvs[i][0]);
+    }
   }
   return resultArray;
 }
@@ -139,19 +142,19 @@ function getAllMvs(match) {
       let odd = y % 2;
       let testSpace = match.boardState[ i + 3 + odd ];
       if (testPiece != 'b' && y < 7  && x + odd > 0 && testSpace == 'e') {
-        moveSet.add( i + 3 + odd );
+        moveSet.add( [i + 3 + odd, i] );
       }
       testSpace = match.boardState[ i + 4 + odd ];
       if (testPiece != 'b' && y < 7  &&  x + odd < 4 && testSpace == 'e') {
-        moveSet.add( i + 4 + odd );
+        moveSet.add( [i + 4 + odd, i] );
       }
       testSpace = match.boardState[ i - 5 + odd ];
       if (testPiece != 'r' && y > 0  && x + odd > 0 && testSpace == 'e') {
-        moveSet.add( i - 5 + odd );
+        moveSet.add( [i - 5 + odd, i] );
       }
       testSpace = match.boardState[ i - 4 + odd ];
       if (testPiece != 'r' && y > 0  && x + odd < 3 && testSpace == 'e') {
-        moveSet.add( i - 4 + odd );
+        moveSet.add( [i - 4 + odd, i] );
       }
     }
   }
@@ -170,9 +173,40 @@ function getAllJumps(match) {
     let testPiece = match.boardState[i];
     testCode = testPiece.toLowerCase();
     if ( testCode == code ) {
-      let testJumps = hasJump( match, i);
-      for (var j = 0; j < testJumps.length; j++) {
-        jumpSet.add(testJumps[j]);
+
+      let targetCode = 'b';
+      if (testCode == 'b') { targetCode = 'r'}
+      let y = Math.floor(i / 4);
+      let oddOffset = (y % 2)
+      let x = i % 4;
+
+      let testSpace = match.boardState[ i + 7 ]
+      if ( testPiece != 'b' && y < 6  && testSpace == 'e' && x > 0 ){
+        captured = i + 3 + oddOffset;
+        if (match.boardState[captured].toLowerCase() == targetCode) {
+          jumpSet.add([i + 7, captured, i]);
+        }
+      }
+      testSpace = match.boardState[ i + 9 ]
+      if ( testPiece != 'b' && y < 6  && testSpace == 'e' && x < 3 ){
+        captured = i + 4 + oddOffset;
+        if (match.boardState[captured].toLowerCase() == targetCode) {
+          jumpSet.add([i + 9, captured, i]);
+        }
+      }
+      testSpace = match.boardState[ i - 9 ]
+      if( testPiece != 'r' && y > 1  && testSpace == 'e' && x > 0 ){
+        captured = i - 5 + oddOffset;
+        if (match.boardState[captured].toLowerCase() == targetCode) {
+          jumpSet.add([i - 9, captured, i]);
+        }
+      }
+      testSpace = match.boardState[ i - 7 ]
+      if ( testPiece != 'r' && y > 1  && testSpace == 'e' && x < 3 ){
+        captured = i - 4 + oddOffset;
+        if (match.boardState[captured].toLowerCase() == targetCode) {
+          jumpSet.add([i - 7, captured, i]);
+        }
       }
     }
   }
