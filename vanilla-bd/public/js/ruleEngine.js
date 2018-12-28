@@ -30,7 +30,6 @@ function initMatch( turnColor,redPlayerUID,blkPlayerUID ) {
   };
 }
 
-
 // apply the rules of checkers to a move and calculate the new gameState
 function doMove ( match, fm, to )  {
   let turn = match.turn;
@@ -110,6 +109,23 @@ function doMove ( match, fm, to )  {
 }
 
 
+function getPosSpaces(match) {
+  let resultArray = []
+  let jmps = getAllJumps(match);
+  if (jmps.length > 0) {
+    for (var i = 0; i < jmps.length; i++) {
+      resultArray.push(jmps[i][0]);
+    }
+  } else {
+    resultArray = getAllMvs(match);
+  }
+  return resultArray;
+}
+
+
+// ******************  other functions   *****************
+
+
 // returns an array of all possible next moves
 function getAllMvs(match) {
   let moveSet = new Set();
@@ -151,22 +167,6 @@ function getAllJumps(match) {
   }
   return allJumps;
 }
-
-function getPosSpaces(match) {
-  let resultArray = []
-  let jmps = getAllJumps(match);
-  if (jmps.length > 0) {
-    for (var i = 0; i < jmps.length; i++) {
-      resultArray.push(jmps[i][0]);
-    }
-  } else {
-    resultArray = getAllMvs(match);
-  }
-  return resultArray;
-}
-
-
-// ******************  other functions   *****************
 
 // returns an array of legal moves from "fm"
 function hasMove ( match, fm ) {
@@ -265,23 +265,4 @@ function isLegalJump(match, fm, to) {
 }
 
 
-
-
-
-
-
-// function setSpace(chr, index, bdState) {
-//   return bdState.substr(0,index) + chr + bdState.substr(index+1);
-// }
-
-//  return an array of all possible one space moves from the index
-function posMvs(ind, match) {
-  return [12, 13, 14, 15];
-}
-
-//  return an array of all possible one space jumps from the index
-function posJumps(ind) {
-  return 2;
-}
-
-module.exports = { getPosSpaces, getAllJumps, posJumps, posMvs, initMatch }
+module.exports = { getPosSpaces, doMove, initMatch }

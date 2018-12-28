@@ -10,9 +10,7 @@ let lastMove = null;
 
 document.addEventListener("DOMContentLoaded", event => {
   initBoard(63);
-  console.log("before initMatch")
   match = initMatch( "r","A", "A" );
-  console.log("after initMatch")
   setBoard(match.boardState, selected, allMoves);
   document.addEventListener('bdclickevent', e => {
     handleBdClick( e.detail.index, e.detail.code )
