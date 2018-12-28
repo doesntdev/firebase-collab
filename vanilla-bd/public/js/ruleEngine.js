@@ -134,9 +134,24 @@ function getAllMvs(match) {
     let testPiece = match.boardState[i];
     testCode = testPiece.toLowerCase();
     if ( testCode == code ) {
-      let testMoves = hasMove( match, i);
-      for (var j = 0; j < testMoves.length; j++) {
-        moveSet.add(testMoves[j]);
+      let y = Math.floor( i / 4 );
+      let x = i % 4;
+      let odd = y % 2;
+      let testSpace = match.boardState[ i + 3 + odd ];
+      if (testPiece != 'b' && y < 7  && x + odd > 0 && testSpace == 'e') {
+        moveSet.add( i + 3 + odd );
+      }
+      testSpace = match.boardState[ i + 4 + odd ];
+      if (testPiece != 'b' && y < 7  &&  x + odd < 4 && testSpace == 'e') {
+        moveSet.add( i + 4 + odd );
+      }
+      testSpace = match.boardState[ i - 5 + odd ];
+      if (testPiece != 'r' && y > 0  && x + odd > 0 && testSpace == 'e') {
+        moveSet.add( i - 5 + odd );
+      }
+      testSpace = match.boardState[ i - 4 + odd ];
+      if (testPiece != 'r' && y > 0  && x + odd < 3 && testSpace == 'e') {
+        moveSet.add( i - 4 + odd );
       }
     }
   }
