@@ -5,25 +5,30 @@
 */
 
 
-// const startBoard = "eeeeeeerreeebeeeeereebbeeeeereee"; // test red moves
-// const startBoard = "eeeerrerrbreebbeeereebbeeeeereee"; // test red moves
-const startBoard = "rrrrrrrrrrrreeeeeeeebbbbbbbbbbbb";
-// const startBoard = "eeeebbbbrrrreeeeeeeebbbbrrrreeee";
-// const startBoard = "eeeeeeeeeeeeeeeeeeeerrrrbbbbrrrr";
+const startBoard = ["r", "r", "r", "r",
+                    "r", "r", "r", "r",
+                    "r", "r", "r", "r",
+                    "e", "e", "e", "e",
+                    "e", "e", "e", "e",
+                    "b", "b", "b", "b",
+                    "b", "b", "b", "b",
+                    "b", "b", "b", "b"
+                  ];
+
 
 function initMatch( turnColor,redPlayerUID,blkPlayerUID ) {
   // populate an array
-  let initBoard = [];
-  for (var i = 0; i < startBoard.length; i++) {
-    initBoard[i] = startBoard[i];
-  }
+  // let initBoard = [];
+  // for (var i = 0; i < startBoard.length; i++) {
+  //   initBoard[i] = startBoard[i];
+  // }
   // setBoard(initBoard, null, null);
   let stat = "pending";
   if (redPlayerUID && blkPlayerUID) {  // local game?
     stat = "active";
   }
   return {turn: {color: turnColor, chain: false, chainSpace: null},
-    boardState: initBoard,
+    boardState: startBoard,
     redUID: redPlayerUID,
     blkUID: blkPlayerUID,
     status: stat
@@ -47,6 +52,7 @@ function doMove ( match, fm, to )  {
 
   //  check turn, check space is empty
   if (turn.color != fmcolor || tocode != "e") {
+    console.log("turn.color, fmcolor, tocode != 'e'",turn.color, fmcolor, tocode);
     return { lastMove: {fm: fm, to: to}, newMatchState: match, msg: "Move is illegal 3" };
   }
 
@@ -176,7 +182,7 @@ function getAllMvs(match) {
         moveSet.add( [i - 5 + odd, i] );
       }
       testSpace = match.boardState[ i - 4 + odd ];
-      if (testPiece != 'r' && y > 0  && x + odd < 3 && testSpace == 'e') {
+      if (testPiece != 'r' && y > 0  && x + odd < 4 && testSpace == 'e') {
         moveSet.add( [i - 4 + odd, i] );
       }
     }
@@ -241,4 +247,4 @@ function getAllJumps(match) {
 }
 
 
-module.exports = { getPosSpaces, doMove, initMatch }
+module.exports = { getPosSpaces, getAllMvs, getAllJumps, doMove, initMatch }

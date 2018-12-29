@@ -1,6 +1,6 @@
-const { getPosSpaces, doMove, initMatch} = require('./ruleEngine');
+const { getPosSpaces, getAllMvs, getAllJumps, doMove, initMatch } = require('./ruleEngine');
 
-test('get all the moves, test match', () => {
+test('initBoard test', () => {
   const match = {
         blkUID: "AAA",
         boardState: ["r", "r", "r", "r", "r", "r", "r", "r", "r", "r", "r", "r", "e", "e", "e", "e", "e", "e", "e", "e", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b", "b"],

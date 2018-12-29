@@ -52,7 +52,7 @@ function handleBdClick ( index, code ) {
       return;
     }
   } else {
-    if ( selected ) {
+    if ( selected >= 0 ) {
       let rslt = doMove(match, selected, index);
       match = rslt.newMatchState;
       lastMove = rslt.lastMove;
