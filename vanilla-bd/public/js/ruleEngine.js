@@ -16,13 +16,15 @@ const startBoard = ["r", "r", "r", "r",
                   ];
 
 
+/**
+ * initiates a match object
+ *
+ * @param {string} turnColor  -'r' | 'b'
+ * @param {string} redPlayerUID - 
+ * @param {string} blkPlayerUID -
+ * @return {object}  a match
+ */
 function initMatch( turnColor,redPlayerUID,blkPlayerUID ) {
-  // populate an array
-  // let initBoard = [];
-  // for (var i = 0; i < startBoard.length; i++) {
-  //   initBoard[i] = startBoard[i];
-  // }
-  // setBoard(initBoard, null, null);
   let stat = "pending";
   if (redPlayerUID && blkPlayerUID) {  // local game?
     stat = "active";
@@ -35,7 +37,14 @@ function initMatch( turnColor,redPlayerUID,blkPlayerUID ) {
   };
 }
 
-// apply the rules of checkers to a move and calculate the new gameState
+/**
+ * apply the rules of checkers to a move and calculate the new gameState
+ *
+ * @param {object} match - object of current match,
+ * @param {int} fm - index of proposed piece to move
+ * @param {int} to - index of space to move
+ * @return {object} {lastTurn, newMatchState, msg}
+ */
 function doMove ( match, fm, to )  {
   let turn = match.turn;
   let fmcode = match.boardState[fm];
@@ -137,8 +146,13 @@ function doMove ( match, fm, to )  {
   return { lastMove: {fm: fm, to: to}, newMatchState: match, msg: "Move is illegal 1" };
 }
 
-
-function getPosSpaces(match) {
+/**
+ * calculate all possible next moves of player that has turn
+ *
+ * @param {object} match - object of current match,
+ * @return {array} array of int indexes
+ */
+ function getPosSpaces(match) {
   let resultArray = []
   let jmps = getAllJumps(match);
   if (jmps.length > 0) {

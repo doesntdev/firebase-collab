@@ -7,7 +7,9 @@ let allMoves = [];
 let msg = "";
 let lastMove = null;
 
-
+/**
+ * init board, init match, draw board and add listener for board clicks
+ */
 document.addEventListener("DOMContentLoaded", event => {
   initBoard(63);
   match = initMatch( "r","A", "A" );
@@ -17,14 +19,12 @@ document.addEventListener("DOMContentLoaded", event => {
   });
 });
 
-// function initGame () {
-//   match = initMatch( "r","A", "B" )
-//   //calculateMoves();
-//   console.log(match);
-//   draw(match.boardState, selected, allMoves);
-// }
-
-
+/**
+ * Callback for handling click events on the board
+ *
+ * @param {int} index index of testSpace
+ * @param {string} code e | r | R | b | B
+ */
 function handleBdClick ( index, code ) {
 
   // check for remote play and turn

@@ -1,4 +1,4 @@
-const { getPosSpaces, getAllMvs, getAllJumps, doMove, initMatch } = require('./ruleEngine');
+const { getPosSpaces, getAllMvs, getAllJumps, doMove, initMatch } = require('../js/ruleEngine');
 
 const match1 = {
       blkUID: "AAA",
