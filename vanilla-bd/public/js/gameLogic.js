@@ -51,12 +51,18 @@ function handleBdClick ( index, code ) {
     if (code == 'B') {code = 'b'}
     if (code == 'R') {code = 'r'}
     if (code == match.turn.color ) {
+      allMoves = getPosSpaces(match)
+      if (allMoves.length == 0) {
+        alert("GAME IS OVER !!");
+        return;
+      }
+      
       if (selected == index) {
         selected = null;
       } else {
         selected = index;
       }
-      allMoves = getPosSpaces(match)
+
       setBoard(match.boardState, selected, allMoves);
       let trn = match.turn.color == "r" ? "  Red" : "  Black";
       msg = "Do your best." + trn + "'s turn."
@@ -77,6 +83,10 @@ function handleBdClick ( index, code ) {
       selected = null;
 
       allMoves = getPosSpaces(match)
+      if (allMoves.length == 0) {
+        alert("GAME IS OVER !!");
+        return;
+      }
       setBoard(match.boardState, selected, allMoves);
       let trn = match.turn.color == "r" ? "  Red" : "  Black";
       msg = msg + trn + "'s turn."
