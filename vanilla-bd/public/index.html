@@ -7,7 +7,10 @@
       canvas {
         border: 5px solid black;
         background-size: 100%;
+      }body {
+        background-color: #aaaaaa;
       }
+
     </style>
     <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>
         <!-- update the version number as needed -->
@@ -26,6 +29,10 @@
   </head>
   <body>
     <h2>Checker Board</h2>
+    <span id="msgbd"></span>
+
+    <br><br>
     <div id="checkerboard"></div>
+    <input id="gameid" type="text" placeholder="Game ID" onchange="setgameid()">
   </body>
 </html>

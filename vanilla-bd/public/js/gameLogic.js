@@ -1,4 +1,5 @@
 let user = {uid: "A"};
+let gameid = "";
 let match = {};
 let localPlay = true;
 let yourColor = "r";
@@ -13,11 +14,19 @@ let lastMove = null;
 document.addEventListener("DOMContentLoaded", event => {
   initBoard(63);
   match = initMatch( "r","A", "A" );
+  msg = "New match, Red's turn";
+  document.getElementById('msgbd').innerHTML = msg;
   setBoard(match.boardState, selected, allMoves);
   document.addEventListener('bdclickevent', e => {
     handleBdClick( e.detail.index, e.detail.code )
   });
+
 });
+
+function setgameid () {
+  gameid = document.getElementById('gameid').value;
+
+}
 
 /**
  * Callback for handling click events on the board
@@ -29,7 +38,9 @@ function handleBdClick ( index, code ) {
 
   // check for remote play and turn
   if ( match.redUID != match.blkUID && yourColor != match.turn.color) {
-    console.log(" not your turn");
+    let trn = match.turn.color == "r" ? "  Red" : "  Black";
+    msg = "Not your turn, " + trn + "'s turn !!!"
+    document.getElementById('msgbd').innerHTML = msg;
     return;
   }
 
@@ -47,7 +58,13 @@ function handleBdClick ( index, code ) {
       }
       allMoves = getPosSpaces(match)
       setBoard(match.boardState, selected, allMoves);
+      let trn = match.turn.color == "r" ? "  Red" : "  Black";
+      msg = "Do your best." + trn + "'s turn."
+      document.getElementById('msgbd').innerHTML = msg;
     } else {
+      let trn = match.turn.color == "r" ? "  Red" : "  Black";
+      msg = "either there is no piece selected or you've selected the wrong color." + trn + "'s turn."
+      document.getElementById('msgbd').innerHTML = msg;
       console.log("not selected.piece or wrong color ");
       return;
     }
@@ -58,10 +75,17 @@ function handleBdClick ( index, code ) {
       lastMove = rslt.lastMove;
       msg = rslt.msg;
       selected = null;
+
       allMoves = getPosSpaces(match)
       setBoard(match.boardState, selected, allMoves);
+      let trn = match.turn.color == "r" ? "  Red" : "  Black";
+      msg = msg + trn + "'s turn."
+      document.getElementById('msgbd').innerHTML = msg;
       console.log(msg);
     } else {
+      let trn = match.turn.color == "r" ? "  Red" : "  Black";
+      msg = "empty space, no selected piece" + trn +"'s turn";
+      document.getElementById('msgbd').innerHTML = msg;
       console.log("empty space, no selected piece");
     }
   }
