@@ -42,13 +42,13 @@ Install npm express module on the terminal `npm i express --save` this saves the
 Edit the `firebase.json` file to include `"rewrites": [{"source": "**", "function": "app"}]` <br>
 ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/firebase_firebase_json_rewrites.PNG "firebase.json")<br>
 
-<h2>EJS View Engine</h2>
-Why? Because templating. Embedded JavaScript - which means you can pull JS from the server to dynamically create page elements<br>
+<h2>Setting a View Engine</h2>
+Why? Because templating. EJS is Embedded JavaScript - which means you can pull JS from the server to dynamically create page elements<br>
 ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/firebase_ejs_templating.PNG "ejs templating")<br>
 cd into `/functions` directory. Run command `npm i ejs consolidate --save` to add ejs and consolidate modules for the view engines<br>
-You can of course use something else like `handlebars` instead of `ejs`<br>
+You can of course use something else like `handlebars` instead of `ejs` like `npm i handlebars consolidate --save`<br>
 Once installed add to use within index.js `const engines = require('consolidate');`<br>
-Create the view engine by adding `app.engine('ejs', engines.ejs);`<br>
-Tell the app where the engine should look by adding `app.set('views', './views');`<br>
-Set the view engine by adding `app.set('view engine', 'ejs');<br>
+Create the view engine by adding `app.engine('ejs', engines.ejs);` or `app.engine('handlebars', engines.handlebars);`<br>
+Tell the app where the engine should look by adding `app.set('views', './views');` under the `functions` directory<br>
+Set the view engine by adding `app.set('view engine', 'ejs');` or `app.set('view engine', 'ejs');`<br>
 
