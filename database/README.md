@@ -26,7 +26,7 @@ Change `.read` and `.write` to `"true"` and save<br>
 NOTE: Changes here will overwrite any rules in firebase console
 [Sample database rules] (../blob/master/database/firebase_database_sampleRules.txt) <br>
 
-<h2>Firebase deploy<h2>
+<h2>Firebase deploy</h2>
 When init is finished type in the terminal `firebase deploy` to publish<br>
 Due to a bug, it is likely you will get a database deploy error<br>
 ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/deploy_error_RESOURCE_DIR.PNG "deploy error")<br>
