@@ -19,11 +19,17 @@ Choose hosting public folder (default is public)<br>
 Choose to configure as Single-Page App --rewrite URLs to single file (No)
 
 <h2>Firebase database rules</h2>
-Open `database.rules.json` file to edit database rules.<br>
+Open `database.rules.json` file to edit database rules<br>
 By default rules are set to `read` and `write` only by authorized users<br>
 ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/firebase_database_default_rules.PNG "default db rules")<br>
-Change `.read` and `.write` to `"true"` and save
+Change `.read` and `.write` to `"true"` and save<br>
+NOTE: Changes here will overwrite any rules in firebase console
 [Sample database rules] (../blob/master/database/firebase_database_sampleRules.txt) <br>
 
+<h2>Firebase deploy<h2>
+When init is finished type in the terminal `firebase deploy` to publish<br>
+Due to a bug, it is likely you will get a database deploy error<br>
+![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/deploy_error_RESOURCE_DIR.PNG "deploy error")<br>
+Open `firebase.json` file and change `\"$RESOURCE_DIR\"` to `\"%RESOURCE_DIR%\"` save and try to deploy again `firebase deploy`
 
 
