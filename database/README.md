@@ -30,5 +30,6 @@ NOTE: Changes here will overwrite any rules in firebase console
 When init is finished type in the terminal `firebase deploy` to publish<br>
 Due to a bug, it is likely you will get a database deploy error<br>
 ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/deploy_error_RESOURCE_DIR.PNG "deploy error")<br>
-Open `firebase.json` file and remove `"predeploy"` as not needed and try to deploy again `firebase deploy`
+Open `firebase.json` file and remove `"predeploy"` as not needed and try to deploy again `firebase deploy` (https://github.com/firebase/firebase-tools/issues/822#issuecomment-406754186)
+
 
