@@ -20,5 +20,7 @@ Choose to configure as Single-Page App --rewrite URLs to single file (No)
 
 <h2>Firebase database rules</h2>
 Open `database.rules.json` file to edit database rules.<br>
-By default rules are set to `read` and `write` only by authorized users
+By default rules are set to `read` and `write` only by authorized users<br>
 ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/firebase_database_default_rules.PNG "default db rules")<br>
+Sample of various database rules saved https://github.com/onrul/firebase-collab/blob/master/database/firebase_database_sampleRules.txt <br>
+
