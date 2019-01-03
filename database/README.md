@@ -42,4 +42,10 @@ Install npm express module on the terminal `npm i express --save` this saves the
 Edit the `firebase.json` file to include `"rewrites": [{"source": "**", "function": "app"}]` <br>
 ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/firebase_firebase_json_rewrites.PNG "firebase.json")<br>
 
+<h2>EJS View Engine</h2>
+cd into `/functions` directory. Run command `npm i ejs consolidate --save` to add ejs and consolidate modules for the view engines<br>
+Once installed add to use within index.js `const engines = require('consolidate');`<br>
+Create the view engine by adding `app.engine('ejs', engines.ejs);`<br>
+Tell the app where the engine should look by adding `app.set('views', './views');`<br>
+Set the view engine by adding `app.set('view engine', 'ejs');<br>
 
