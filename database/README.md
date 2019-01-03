@@ -23,7 +23,7 @@ Open `database.rules.json` file to edit database rules.<br>
 By default rules are set to `read` and `write` only by authorized users<br>
 ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/firebase_database_default_rules.PNG "default db rules")<br>
 Change `.read` and `.write` to `"true"` and save
-<h4>Sample database rules</h4> https://github.com/onrul/firebase-collab/blob/master/database/firebase_database_sampleRules.txt <br>
+[Sample database rules] (../blob/master/database/firebase_database_sampleRules.txt) <br>
 
 
 
