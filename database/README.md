@@ -36,7 +36,7 @@ When successfully deployed, firebase displays status deployment URL<br>
 
 <h2>Express Integration</h2>
 Since we do not want to have only static files within `public`, everything under the functions folder in firebase is dynamic<br>
-Thus the need to save express files within `functions` folder i.e. `views` or `routes` folders<br>
+Thus the need to save express files within a `functions` subfolder i.e. `views` or `routes` folders<br>
 Change into `/functions` folder `cd functions`<br>
 Install npm express module on the terminal `npm i express --save` this saves the express module as a dependency<br>
 Edit the `firebase.json` file to include `"rewrites": [{"source": "**", "function": "app"}]` <br>
