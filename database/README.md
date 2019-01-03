@@ -1,11 +1,11 @@
 <h1>Firebase Database Ops</h1>
 A database project guide to assist in developing interations with the realtime database.
 
-1. Firebase database init<br>
+<h2>Firebase database init</h2>
 Select the Database option during `firebase init`<br>
   ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/Firebase_DB_init.PNG "database init")<br>
 
-2. Firebase functions and hosting<br>
+<h2>Firebase functions and hosting</h2>
 Also include the `hosting` and if applicable the `functions`<br>
 
   ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/Firebase_db_functions_hosting.PNG "hosting /functions")<br>
