@@ -33,6 +33,7 @@ Due to a bug, it is likely you will get a database deploy error<br>
 Open `firebase.json` file and remove `"predeploy"` as not needed and try to deploy again(https://github.com/firebase/firebase-tools/issues/822#issuecomment-406754186)<br>
 When successfully deployed, firebase displays status deployment URL<br>
 ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/firebase_deploy.PNG)<br>
+Some additional commands that speed up deployment include `firebase deploy --only functions:app` or `firebase deploy --except functions`<br>
 
 <h2>Express Integration</h2>
 Since we do not want to have only static files within `public`, everything under the functions folder in firebase is dynamic<br>
