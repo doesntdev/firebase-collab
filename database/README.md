@@ -43,6 +43,7 @@ Edit the `firebase.json` file to include `"rewrites": [{"source": "**", "functio
 ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/firebase_firebase_json_rewrites.PNG "firebase.json")<br>
 
 <h2>EJS View Engine</h2>
+Why? Because templating. Embedded JavaScript - which means you can pull JS from the server to dynamically create page elements<br>
 cd into `/functions` directory. Run command `npm i ejs consolidate --save` to add ejs and consolidate modules for the view engines<br>
 Once installed add to use within index.js `const engines = require('consolidate');`<br>
 Create the view engine by adding `app.engine('ejs', engines.ejs);`<br>
