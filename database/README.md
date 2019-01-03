@@ -34,5 +34,9 @@ Open `firebase.json` file and remove `"predeploy"` as not needed and try to depl
 When successfully deployed, firebase displays status deployment URL<br>
 ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/firebase_deploy.PNG)<br>
 
+<h2>Express Integration</h2>
+Change into `/functions` folder `cd functions`<br>
+Install npm express module on the terminal `npm i express --save` this saves the express module as a dependency<br>
+
 
 
