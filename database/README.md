@@ -40,5 +40,6 @@ Thus the need to save express files within `functions` folder i.e. `views` or `r
 Change into `/functions` folder `cd functions`<br>
 Install npm express module on the terminal `npm i express --save` this saves the express module as a dependency<br>
 Edit the `firebase.json` file to include `"rewrites": [{"source": "**", "function": "app"}]` <br>
+![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/firebase_firebase_json_rewrites.PNG "firebase.json")<br>
 
 
