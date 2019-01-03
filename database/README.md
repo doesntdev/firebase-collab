@@ -4,12 +4,12 @@ A database project guide to assist in developing interations with the realtime d
 1. Firebase database init
 
   Select the Database option during `firebase init`<br>
-![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/Firebase_DB_init.PNG "database init")<br>
+  ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/Firebase_DB_init.PNG "database init")<br>
 
 2. Firebase functions and hosting
   Also include the `hosting` and if applicable the `functions`<br>
 
-![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/Firebase_db_functions_hosting.PNG "hosting /functions")<br>
+  ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/Firebase_db_functions_hosting.PNG "hosting /functions")<br>
 
   Continue to choose init options until complete<br>
   Choose default project from `firebase console`. https://console.firebase.google.com/<br>
