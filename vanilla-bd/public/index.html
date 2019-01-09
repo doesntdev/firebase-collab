@@ -1,10 +1,11 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>CkerBd</title>
-    <style>
-      canvas {
+
+<head>
+  <meta charset="utf-8">
+  <title>CkerBd</title>
+  <style>
+    canvas {
         border: 5px solid black;
         background-size: 100%;
       }body {
@@ -12,27 +13,65 @@
       }
 
     </style>
-    <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>
-        <!-- update the version number as needed -->
-    <script defer src="/__/firebase/5.6.0/firebase-app.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <!--script defer src="/__/firebase/5.6.0/firebase-auth.js"></script-->
-    <script defer src="/__/firebase/5.6.0/firebase-database.js"></script>
-    <!--script defer src="/__/firebase/5.6.0/firebase-firestore.js"></script-->
-    <!--<script defer src="/__/firebase/5.6.0/firebase-messaging.js"></script>-->
-    <!--<script defer src="/__/firebase/5.6.0/firebase-storage.js"></script>-->
-    <!-- initialize the SDK after all desired features are loaded -->
-    <script defer src="/__/firebase/init.js"></script>
-    <script src="/js/ckbd.js"></script>
-    <script src="/js/ruleEngine.js"></script>
-    <script src="/js/gameLogic.js"></script>
-  </head>
-  <body>
-    <h2>Checker Board</h2>
-    <span id="msgbd"></span>
+  <script src="https://www.gstatic.com/firebasejs/5.6.0/firebase.js"></script>
+  <!-- update the version number as needed -->
+  <script defer src="/__/firebase/5.6.0/firebase-app.js"></script>
+  <!-- include only the Firebase features as you need -->
+  <!--script defer src="/__/firebase/5.6.0/firebase-auth.js"></script-->
+  <script defer src="/__/firebase/5.6.0/firebase-database.js"></script>
+  <!--script defer src="/__/firebase/5.6.0/firebase-firestore.js"></script-->
+  <!--<script defer src="/__/firebase/5.6.0/firebase-messaging.js"></script>-->
+  <!--<script defer src="/__/firebase/5.6.0/firebase-storage.js"></script>-->
+  <!-- initialize the SDK after all desired features are loaded -->
+  <script defer src="/__/firebase/init.js"></script>
+  <script src="/js/ckbd.js"></script>
+  <script src="/js/ruleEngine.js"></script>
+  <script src="/js/gameLogic.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
 
-    <br><br>
-    <div id="checkerboard"></div>
-    <input id="gameid" type="text" placeholder="Game ID" onchange="setgameid()">
-  </body>
+</head>
+
+<body>
+
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">Chalkers</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 text-dark" href="#">Find Match</a>
+      <a class="p-2 text-dark" href="#">View Match History</a>
+      <a class="p-2 text-dark" href="#">Spectate Game</a>
+      <a class="p-2 text-dark" href="#">Profile</a>
+    </nav>
+    <a class="btn btn-outline-primary" href="#">Sign up</a>
+  </div>
+
+
+  <div class="container">
+    <div class="col-md">
+      <div class="row d-flex justify-content-center">
+        <h2>Checker Board</h2>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <div id="msgbd"></div>
+      </div>
+
+      <div class="row d-flex justify-content-center">
+        <div id="checkerboard"></div>
+      </div>
+      <div class="row d-flex justify-content-center">
+        <input id="gameid" type="text" placeholder="Game ID" onchange="setgameid()">
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+
 </html>
