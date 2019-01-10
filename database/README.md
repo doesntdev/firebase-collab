@@ -24,7 +24,7 @@ By default rules are set to `read` and `write` only by authorized users<br>
 ![alt text](https://github.com/onrul/firebase-collab/raw/master/database/images/firebase_database_default_rules.PNG "default db rules")<br>
 Change `.read` and `.write` to `"true"` and save<br>
 NOTE: Changes here will overwrite any rules in firebase console
-[Sample database rules] (../blob/master/database/firebase_database_sampleRules.txt) <br>
+![Sample database rules] (https://github.com/onrul/firebase-collab/raw/master/database/firebase_database_sampleRules.txt) <br>
 
 <h2>Firebase deploy</h2>
 When init is finished type in the terminal `firebase deploy` to publish<br>
