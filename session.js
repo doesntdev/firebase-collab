@@ -9,30 +9,6 @@ let loggedIn = false;
 let Session = (function() {
 
 
-// function authStateChangeListener() {
-//     console.log("state change detected");
-//     //ask firebase for the current user
-//     let user = firebase.auth().currentUser;
-    
-//     //signin
-//     if (user) {
-//         console.log(user.displayName + " is now logged in");
-//         loggedIn = true;
-//         //closeLoginDialog();
-//         document.querySelector("#login").style.display = "none";
-//         document.querySelector("#logout").style.display = "block";
-//         getProfile();
-//         //Chat.onlogin();
-//         //Game.onlogin();
-//     }
-//     else { //signout
-//         if (loggedIn) {
-//             loggedIn = false;
-//             window.location.reload();
-//         }
-//     }
-// }
-
 /*
  * Sign in with a username and password
  * */
